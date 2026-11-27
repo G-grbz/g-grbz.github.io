@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0c1d1a">
+    <title data-tr="G-Hotspot Kurulumu | OPNsense Captive Portal ve Misafir Ağı">G-Hotspot Setup | OPNsense Captive Portal and Guest Wi-Fi</title>
+    <meta name="description" content="Install G-Hotspot with Node.js, test guest login in mock mode, and connect an OPNsense Captive Portal zone for vouchers and OTP." data-tr-content="G-Hotspot’u Node.js ile kurun, misafir girişini deneme modunda test edin ve kupon ve tek kullanımlık şifre için OPNsense Captive Portal bölgesi bağlayın.">
+    <link rel="canonical" href="https://g-grbz.github.io/projects/g-hotspot/">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="G-grbz">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="tr_TR">
+    <meta property="og:url" content="https://g-grbz.github.io/projects/g-hotspot/">
+    <meta property="og:title" content="G-Hotspot Setup | OPNsense Captive Portal and Guest Wi-Fi" data-tr-content="G-Hotspot Kurulumu | OPNsense Captive Portal ve Misafir Ağı">
+    <meta property="og:description" content="Install G-Hotspot with Node.js, test guest login in mock mode, and connect an OPNsense Captive Portal zone for vouchers and OTP." data-tr-content="G-Hotspot’u Node.js ile kurun, misafir girişini deneme modunda test edin ve kupon ve tek kullanımlık şifre için OPNsense Captive Portal bölgesi bağlayın.">
+    <meta property="og:image" content="https://g-grbz.github.io/assets/img/social-card.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="G-grbz and the four project logos" data-tr-content="G-grbz ve dört proje logosu">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "G-Hotspot Setup | OPNsense Captive Portal and Guest Wi-Fi",
+      "description": "Install G-Hotspot with Node.js, test guest login in mock mode, and connect an OPNsense Captive Portal zone for vouchers and OTP.",
+      "url": "https://g-grbz.github.io/projects/g-hotspot/",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "G-grbz",
+        "url": "https://g-grbz.github.io/"
+      },
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "G-Hotspot",
+        "url": "https://github.com/G-grbz/G-Hotspot"
+      }
+    }
+    </script>
+    <link rel="icon" href="../../assets/img/favicon-96.png" type="image/png" sizes="96x96">
+    <script>
+      (() => {
+        const d = document.documentElement;
+        let theme, lang;
+        try { theme = localStorage.getItem("theme"); lang = localStorage.getItem("lang"); } catch {}
+        d.dataset.theme = theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        if ((lang || (/^tr(?:-|$)/i.test(navigator.language) ? "tr" : "en")) === "tr") {
+          d.classList.add("tr-pending");
+          setTimeout(() => d.classList.remove("tr-pending"), 1500);
+        }
+      })();
+    </script>
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <script src="../../assets/portal.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content" data-tr="İçeriğe geç">Skip to content</a>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="../../"><img src="../../assets/img/logo.png" alt="G-grbz" width="1024" height="548"></a>
+        <nav class="nav" aria-label="Main navigation" data-tr-label="Ana menü">
+          <a href="../../#projects" data-tr="Projeler">Projects</a>
+          <a href="../../#setup" data-tr="Kurulum">Setup</a>
+          <a class="nav-github" href="https://github.com/G-grbz" aria-label="GitHub"><span class="icon icon-repo" aria-hidden="true"></span> <span class="nav-label">GitHub</span></a>
+        </nav>
+      </div>
+    </header>
+    <div class="shell workspace">
+      <nav class="sidebar" aria-label="Project navigation" data-tr-label="Proje gezintisi">
+        <p class="sidebar-title" data-tr="Proje rehberleri">Project guides</p>
+        <ul class="sidebar-links">
+          <li><a class="sidebar-link" href="../../"><span class="sidebar-icon sidebar-home"><span class="icon icon-apps" aria-hidden="true"></span></span> <span data-tr="Portala genel bakış">Portal overview</span></a></li>
+          <li><a class="sidebar-link project-music" href="../../projects/gharmonize/"><span class="sidebar-icon"><img src="../../assets/img/projects/gharmonize.webp" width="192" height="192" alt=""></span> <span>Gharmonize</span></a></li>
+          <li><a class="sidebar-link project-movies" href="../../projects/g-tmce/"><span class="sidebar-icon"><img src="../../assets/img/projects/g-tmce.webp" width="192" height="192" alt=""></span> <span>G-TMCE</span></a></li>
+          <li><a class="sidebar-link project-folder" href="../../projects/lurviko/"><span class="sidebar-icon"><img src="../../assets/img/projects/lurviko.webp" width="192" height="157" alt=""></span> <span>Lurviko</span></a></li>
+          <li><a class="sidebar-link project-wifi" href="../../projects/g-hotspot/" aria-current="page"><span class="sidebar-icon"><img src="../../assets/img/projects/g-hotspot.webp" width="192" height="192" alt=""></span> <span>G-Hotspot</span></a></li>
+        </ul>
+      </nav>
+      <main class="guide" id="content" tabindex="-1">
+        <article>
+          <header class="guide-hero project-wifi">
+            <div class="guide-heading">
+              <span class="project-icon"><img src="../../assets/img/projects/g-hotspot.webp" width="192" height="192" alt=""></span>
+              <h1>G-Hotspot</h1>
+            </div>
+            <p class="guide-intro" data-tr="Node.js doğrulama portalı ve OPNsense Captive Portal Session API ile misafir ağı erişimini yönetin. Misafir ağını bağlamadan önce akışı yerelde test edin.">Manage guest Wi-Fi access with a Node.js verification portal and the OPNsense Captive Portal Session API. Test the workflow locally before attaching a guest network.</p>
+            <div class="guide-actions">
+              <a class="button guide-primary" href="#installation"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="Kurulum adımları">Installation steps</span></a>
+              <a class="text-link" href="https://github.com/G-grbz/G-Hotspot"><span class="icon icon-repo" aria-hidden="true"></span> GitHub</a>
+              <a class="text-link" href="https://github.com/G-grbz/G-Hotspot/releases/latest"><span class="icon icon-download" aria-hidden="true"></span> <span data-tr="Sürümler">Releases</span></a>
+            </div>
+          </header>
+          <nav class="guide-toc" aria-label="On this page" data-tr-label="Bu sayfada">
+            <a href="#features"><span data-tr="Özellikler">Features</span></a>
+            <a href="#installation"><span data-tr="Yerel kurulum ve test">Install and test locally</span></a>
+            <a href="#opnsense"><span data-tr="OPNsense bağlantısı">Connect OPNsense</span></a>
+            <a href="#configuration"><span data-tr="Ayarlar ve dağıtım">Settings and deployment</span></a>
+          </nav>
+          <section class="guide-section" id="features" aria-labelledby="features-title">
+            <h2 id="features-title" data-tr="Özellikler">Features</h2>
+            <ul>
+              <li><span data-tr="Kuponla giriş, tek kullanımlık kod veya yönetici onayı sunun. Kodlar e-posta, SMS, WhatsApp ve Telegram ile gönderilebilir.">Offer voucher access, one-time codes, or administrator approval. Available delivery channels include email, SMS, WhatsApp and Telegram.</span></li>
+              <li><span data-tr="Türkçe ve İngilizce arayüzlü yönetim panelinde oturumları ve doğrulama ayarlarını yönetin.">Manage sessions and verification settings from an admin panel with Turkish and English interfaces.</span></li>
+              <li><span data-tr="Misafir oturumlarını OPNsense ile bütünleştirin. Kea DHCP eşitleme ve Traffic Shaper politikaları isteğe bağlıdır.">Integrate guest sessions with OPNsense. Kea DHCP synchronization and Traffic Shaper policies are optional.</span></li>
+            </ul>
+            <a class="text-link" href="https://github.com/G-grbz/G-Hotspot/blob/main/docs/README.en.md#verification-methods" data-tr-href="https://github.com/G-grbz/G-Hotspot/blob/main/docs/README.tr.md#doğrulama-yöntemleri"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="Doğrulama yöntemleri ve gereksinimleri">Verification methods and requirements</span></a>
+          </section>
+          <section class="guide-section" id="installation" aria-labelledby="installation-title">
+            <h2 id="installation-title" data-tr="Yerel kurulum ve test">Install and test locally</h2>
+            <p data-tr="Node.js 24 veya üzerini ve Git’i kurun. Sunucu, Node.js ile gelen SQLite modülünü kullanır.">Install Node.js 24 or newer and Git. The server uses the SQLite module bundled with Node.js.</p>
+            <div class="guide-example">
+              <p class="example-title" data-tr="G-Hotspot kurulum komutları">G-Hotspot installation commands</p>
+              <div class="command">
+                <pre><code>git clone https://github.com/G-grbz/G-Hotspot.git
+cd G-Hotspot
+node --version
+npm start</code></pre>
+                <button type="button" class="copy" aria-label="Copy G-Hotspot installation commands" data-tr-label="G-Hotspot kurulum komutlarını kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+              </div>
+            </div>
+            <!-- PKG:g-hotspot -->
+            <div class="pkg" data-pkg>
+              <p class="pkg-title" data-tr="Son sürümü kur">Install the latest release</p>
+              <div class="pkg-tabs" role="tablist" aria-label="G-Hotspot packages" data-tr-label="G-Hotspot paketleri">
+                <button type="button" class="pkg-tab" role="tab" id="pk-g-hotspot-tab-zip" aria-controls="pk-g-hotspot-zip" aria-selected="false" data-os="linux" data-tr="Sürüm arşivi">Release archive</button>
+                <button type="button" class="pkg-tab" role="tab" id="pk-g-hotspot-tab-android" aria-controls="pk-g-hotspot-android" aria-selected="false" data-os="android">Android</button>
+              </div>
+              <div class="pkg-panel" role="tabpanel" id="pk-g-hotspot-zip" aria-labelledby="pk-g-hotspot-tab-zip">
+                <p class="pkg-hint"><b class="pkg-type">.zip</b> <span data-tr="Node.js 24 veya üzeri. Son sürümü ev klasörünüze açar ve sunucuyu başlatır.">Node.js 24 or newer. Unpacks the latest release into your home folder and starts the server.</span></p>
+                <div class="command">
+                  <pre><code>curl -fsSL https://api.github.com/repos/G-grbz/G-Hotspot/releases/latest \
+  | jq -r &#x27;.assets[] | select(.name | test(&quot;^G-Hotspot-v[0-9.]+\\.zip$&quot;)) | .browser_download_url&#x27; \
+  | xargs -r curl -fLo /tmp/g-hotspot.zip \
+  &amp;&amp; unzip -oq /tmp/g-hotspot.zip -d ~ \
+  &amp;&amp; cd &quot;$(ls -d ~/G-Hotspot-v* | sort -V | tail -n 1)&quot; \
+  &amp;&amp; npm start</code></pre>
+                  <button type="button" class="copy" aria-label="Copy the G-Hotspot Release archive command" data-tr-label="G-Hotspot Sürüm arşivi komutunu kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+                </div>
+              </div>
+              <div class="pkg-panel" role="tabpanel" id="pk-g-hotspot-android" aria-labelledby="pk-g-hotspot-tab-android">
+                <p class="pkg-hint"><b class="pkg-type">.apk</b> <span data-tr="Android uygulaması. Telefonda indirip açın; Android bu kaynaktan kuruluma izin vermenizi isteyebilir.">Android app. Download it on the phone and open it; Android may ask you to allow installs from this source.</span></p>
+                <div class="pkg-download">
+                  <a class="button button-download" href="https://github.com/G-grbz/G-Hotspot/releases/latest" data-asset-repo="G-Hotspot" data-asset-match="-android\.apk$" aria-label="Download G-Hotspot (Android)" data-tr-label="G-Hotspot (Android) indir"><span class="icon icon-download" aria-hidden="true"></span> <span data-tr="İndir">Download</span></a>
+                  <span class="pkg-file" data-asset-info></span>
+                </div>
+              </div>
+              <p class="pkg-note"><span data-tr="Linux komutları için">Linux commands need</span> <code>curl</code> <span data-tr="ve">and</span> <code>jq</code><span data-tr=" gerekir. Komutlar her zaman GitHub’daki son sürümü indirir.">. They always download the latest release from GitHub.</span></p>
+            </div>
+            <!-- /PKG:g-hotspot -->
+            <ol>
+              <li><span data-tr="Sunucuda ">Open </span><code>http://127.0.0.1:8080/install</code><span data-tr=" adresini açın. Uzaktan ilk kurulumda sunucu konsolunun verdiği kurulum adresini kullanın ve kurulum anahtarını gizli tutun."> on the server. For remote first-time setup, use the installer address printed in the server console and keep its setup token private.</span></li>
+              <li><span data-tr="Yönetici hesabı oluşturun, en az 32 karakterlik benzersiz bir uygulama sırrı belirleyin ve ilk test için ağ geçidini ">Create an administrator account, set a unique application secret of at least 32 characters, and leave the gateway in </span><code>mock</code><span data-tr=" modunda bırakın."> mode for the first test.</span></li>
+              <li><span data-tr="">Open </span><code>/admin</code><span data-tr=" sayfasını açın, bir kupon oluşturun ve misafir tarayıcısında kullanın. Deneme modu, gerçek ağ erişimini değiştirmeden giriş akışını doğrulamanızı sağlar.">, configure a voucher and use it in a guest browser. Mock mode lets you verify login behavior without altering real network access.</span></li>
+            </ol>
+            <div class="guide-example">
+              <p class="example-title" data-tr="G-Hotspot sağlık kontrolü">G-Hotspot health check</p>
+              <div class="command">
+                <pre><code>curl http://127.0.0.1:8080/health</code></pre>
+                <button type="button" class="copy" aria-label="Copy G-Hotspot health check" data-tr-label="G-Hotspot sağlık kontrolünü kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+              </div>
+            </div>
+            <a class="text-link" href="https://github.com/G-grbz/G-Hotspot/blob/main/docs/README.en.md#quick-start" data-tr-href="https://github.com/G-grbz/G-Hotspot/blob/main/docs/README.tr.md#hızlı-başlangıç"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="Kurulum ve sağlık kontrolleri">Installer and health checks</span></a>
+          </section>
+          <section class="guide-section" id="opnsense" aria-labelledby="opnsense-title">
+            <h2 id="opnsense-title" data-tr="OPNsense bağlantısı">Connect OPNsense</h2>
+            <ol>
+              <li><span data-tr="Test amaçlı misafir VLAN’ınız veya kablosuz ağınız için bir Captive Portal bölgesi açın. G-Hotspot sunucusuna sabit adres verin ve misafirlerin doğrulama öncesinde portala ulaşmasını sağlayın.">Create a Captive Portal zone for your test guest VLAN or wireless network. Give the G-Hotspot host a fixed address and allow guests to reach its portal before authentication.</span></li>
+              <li><span data-tr="Yalnızca kullandığınız özelliklerin gerektirdiği yetkilere sahip ayrı bir OPNsense API kullanıcısı oluşturun. API anahtarını ve sırrını üretin.">Create a separate OPNsense API user with only the privileges required by the features you use. Generate its API key and secret.</span></li>
+              <li><span data-tr="Kurulumda veya yönetim ayarlarında ">In the installer or admin settings, select </span><code>opnsense-api</code><span data-tr=" seçin. OPNsense adresini, misafir bölge numarasını ve API bilgilerini girin. Güvenilen bir TLS sertifikası kullanın."> and enter the OPNsense base URL, guest zone ID and API credentials. Use a trusted TLS certificate.</span></li>
+              <li><span data-tr="Yönetim panelinde Create template seçeneğini açın, misafir yönlendirme adresini girin, ZIP dosyasını dışa aktarın ve OPNsense Captive Portal şablonu olarak yükleyin.">Use Create template in the admin panel, set the guest redirect URL, export the ZIP and upload it as the OPNsense Captive Portal template.</span></li>
+              <li><span data-tr="Bir misafir cihazıyla test VLAN’ında girişi, oturum süresini ve bağlantı kesmeyi doğrulayın. Kea eşitlemeyi yalnızca ilgili Kea DHCP servisi kullanılıyorsa açın.">From a guest device, verify login, session duration, and disconnect on the test VLAN. Enable Kea synchronization only if the corresponding Kea DHCP service is in use.</span></li>
+            </ol>
+            <a class="text-link" href="https://github.com/G-grbz/G-Hotspot/blob/main/docs/README.en.md#opnsense-production-setup" data-tr-href="https://github.com/G-grbz/G-Hotspot/blob/main/docs/README.tr.md#opnsense-üretim-kurulumu"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="OPNsense üretim kurulumu ve API’ler">OPNsense production and APIs</span></a>
+          </section>
+          <section class="guide-section" id="configuration" aria-labelledby="configuration-title">
+            <h2 id="configuration-title" data-tr="Ayarlar ve dağıtım">Settings and deployment</h2>
+            <p><span data-tr="Canlı ayarları kurulum ekranında veya yönetim panelinde yapılandırın. Ayarlar ">Configure live settings in the installer or admin panel. They are stored in </span><code>data/system.db</code><span data-tr=" içinde saklanır. Eski ">; older </span><code>.env</code><span data-tr=" dosyaları geçiş için desteklenir."> files are supported for migration.</span></p>
+            <div class="guide-table"><table>
+              <thead><tr><th scope="col" data-tr="Ayar">Setting</th><th scope="col" data-tr="İşlevi">What it does</th></tr></thead>
+              <tbody>
+                <tr><th scope="row"><code>HOST / PORT</code></th><td><span data-tr="Sunucu adresi ve dinleme portu. Varsayılan port 8080’dir.">Server address and listening port. The default port is 8080.</span></td></tr>
+                <tr><th scope="row"><code>PUBLIC_BASE_URL</code></th><td><span data-tr="Misafirlerin portala ulaşmak için kullandığı HTTPS adresi.">Public HTTPS URL guests use to reach the portal.</span></td></tr>
+                <tr><th scope="row"><code>GATEWAY_MODE</code></th><td><span data-tr="Test akışları için ">Use </span><code>mock</code><span data-tr=", gerçek oturumlar için "> for test flows and </span><code>opnsense-api</code><span data-tr=" kullanın."> for real sessions.</span></td></tr>
+                <tr><th scope="row"><code>OPNSENSE_BASE_URL / OPNSENSE_ZONE_ID</code></th><td><span data-tr="OPNsense adresi ve Captive Portal bölgesi. API bilgilerini yönetim ayarlarına girin.">The OPNsense host and Captive Portal zone. Enter API credentials in admin settings.</span></td></tr>
+                <tr><th scope="row"><code>SETUP_TOKEN</code></th><td><span data-tr="Uzaktan ilk kurulum için süreç ortamına verilen değer. Parola gibi koruyun.">Process environment value for remote first-time setup. Protect it like a password.</span></td></tr>
+                <tr><th scope="row"><code>SYSTEM_ENCRYPTION_KEY_FILE</code></th><td><span data-tr="Korumalı şifreleme anahtarının süreç ortamına verilen isteğe bağlı dosya yolu. Anahtarı veritabanından ayrı yedekleyin.">Optional process environment path to a protected encryption key. Back up the key separately from the database.</span></td></tr>
+                <tr><th scope="row"><code>TRUST_PROXY / TRUSTED_PROXY_CIDRS</code></th><td><span data-tr="İletilen başlıkları yalnızca güvenilen bir ters vekil arkasında açın. Güven listesine yalnızca vekilin bağlandığı gerçek adresleri ekleyin.">Enable forwarded headers only behind a trusted proxy. Restrict the trusted list to the proxy’s actual connecting addresses.</span></td></tr>
+              </tbody>
+            </table></div>
+            <a class="text-link" href="https://github.com/G-grbz/G-Hotspot/blob/main/docs/README.en.md#systemd-example" data-tr-href="https://github.com/G-grbz/G-Hotspot/blob/main/docs/README.tr.md#systemd-örneği"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="systemd servis örneği">systemd service example</span></a>
+            <a class="text-link" href="https://github.com/G-grbz/G-Hotspot/blob/main/docs/README.en.md#security-and-privacy" data-tr-href="https://github.com/G-grbz/G-Hotspot/blob/main/docs/README.tr.md#güvenlik-ve-gizlilik"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="Güvenlik ve gizlilik ayarları">Security and privacy setup</span></a>
+          </section>
+        </article>
+        <p id="copy-status" class="visually-hidden" role="status"></p>
+      </main>
+    </div>
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <a class="brand" href="../../"><img src="../../assets/img/logo.png" alt="G-grbz" width="1024" height="548"></a>
+        <a class="text-link" href="https://github.com/G-grbz"><span class="icon icon-repo" aria-hidden="true"></span> <span data-tr="GitHub profili">GitHub profile</span></a>
+      </div>
+    </footer>
+  </body>
+</html>

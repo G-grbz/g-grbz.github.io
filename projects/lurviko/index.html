@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0c1d1a">
+    <title data-tr="Lurviko Kurulumu | Linux Dosya Yöneticisi, KDE ve Bulut">Lurviko Setup | Linux File Manager, KDE and Cloud</title>
+    <meta name="description" content="Install Lurviko via AppImage, DEB, RPM, Arch or AUR. Set up its file views, cloud accounts, media library and KDE integration." data-tr-content="Lurviko’yu AppImage, DEB, RPM, Arch veya AUR ile kurun. Dosya görünümlerini, bulut hesaplarını, medya kitaplığını ve KDE entegrasyonunu ayarlayın.">
+    <link rel="canonical" href="https://g-grbz.github.io/projects/lurviko/">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="G-grbz">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="tr_TR">
+    <meta property="og:url" content="https://g-grbz.github.io/projects/lurviko/">
+    <meta property="og:title" content="Lurviko Setup | Linux File Manager, KDE and Cloud" data-tr-content="Lurviko Kurulumu | Linux Dosya Yöneticisi, KDE ve Bulut">
+    <meta property="og:description" content="Install Lurviko via AppImage, DEB, RPM, Arch or AUR. Set up its file views, cloud accounts, media library and KDE integration." data-tr-content="Lurviko’yu AppImage, DEB, RPM, Arch veya AUR ile kurun. Dosya görünümlerini, bulut hesaplarını, medya kitaplığını ve KDE entegrasyonunu ayarlayın.">
+    <meta property="og:image" content="https://g-grbz.github.io/assets/img/social-card.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="G-grbz and the four project logos" data-tr-content="G-grbz ve dört proje logosu">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Lurviko Setup | Linux File Manager, KDE and Cloud",
+      "description": "Install Lurviko via AppImage, DEB, RPM, Arch or AUR. Set up its file views, cloud accounts, media library and KDE integration.",
+      "url": "https://g-grbz.github.io/projects/lurviko/",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "G-grbz",
+        "url": "https://g-grbz.github.io/"
+      },
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "Lurviko",
+        "url": "https://github.com/G-grbz/Lurviko"
+      }
+    }
+    </script>
+    <link rel="icon" href="../../assets/img/favicon-96.png" type="image/png" sizes="96x96">
+    <script>
+      (() => {
+        const d = document.documentElement;
+        let theme, lang;
+        try { theme = localStorage.getItem("theme"); lang = localStorage.getItem("lang"); } catch {}
+        d.dataset.theme = theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        if ((lang || (/^tr(?:-|$)/i.test(navigator.language) ? "tr" : "en")) === "tr") {
+          d.classList.add("tr-pending");
+          setTimeout(() => d.classList.remove("tr-pending"), 1500);
+        }
+      })();
+    </script>
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <script src="../../assets/portal.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content" data-tr="İçeriğe geç">Skip to content</a>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="../../"><img src="../../assets/img/logo.png" alt="G-grbz" width="1024" height="548"></a>
+        <nav class="nav" aria-label="Main navigation" data-tr-label="Ana menü">
+          <a href="../../#projects" data-tr="Projeler">Projects</a>
+          <a href="../../#setup" data-tr="Kurulum">Setup</a>
+          <a class="nav-github" href="https://github.com/G-grbz" aria-label="GitHub"><span class="icon icon-repo" aria-hidden="true"></span> <span class="nav-label">GitHub</span></a>
+        </nav>
+      </div>
+    </header>
+    <div class="shell workspace">
+      <nav class="sidebar" aria-label="Project navigation" data-tr-label="Proje gezintisi">
+        <p class="sidebar-title" data-tr="Proje rehberleri">Project guides</p>
+        <ul class="sidebar-links">
+          <li><a class="sidebar-link" href="../../"><span class="sidebar-icon sidebar-home"><span class="icon icon-apps" aria-hidden="true"></span></span> <span data-tr="Portala genel bakış">Portal overview</span></a></li>
+          <li><a class="sidebar-link project-music" href="../../projects/gharmonize/"><span class="sidebar-icon"><img src="../../assets/img/projects/gharmonize.webp" width="192" height="192" alt=""></span> <span>Gharmonize</span></a></li>
+          <li><a class="sidebar-link project-movies" href="../../projects/g-tmce/"><span class="sidebar-icon"><img src="../../assets/img/projects/g-tmce.webp" width="192" height="192" alt=""></span> <span>G-TMCE</span></a></li>
+          <li><a class="sidebar-link project-folder" href="../../projects/lurviko/" aria-current="page"><span class="sidebar-icon"><img src="../../assets/img/projects/lurviko.webp" width="192" height="157" alt=""></span> <span>Lurviko</span></a></li>
+          <li><a class="sidebar-link project-wifi" href="../../projects/g-hotspot/"><span class="sidebar-icon"><img src="../../assets/img/projects/g-hotspot.webp" width="192" height="192" alt=""></span> <span>G-Hotspot</span></a></li>
+        </ul>
+      </nav>
+      <main class="guide" id="content" tabindex="-1">
+        <article>
+          <header class="guide-hero project-folder">
+            <div class="guide-heading">
+              <span class="project-icon"><img src="../../assets/img/projects/lurviko.webp" width="192" height="157" alt=""></span>
+              <h1>Lurviko</h1>
+            </div>
+            <p class="guide-intro" data-tr="Sekmeler, bölünmüş paneller, önizlemeler ve arşiviniz için Keşfet sayfası sunan bir Qt Quick Linux dosya yöneticisi. KDE ağ özellikleri için yerel paketleri kullanın.">A Qt Quick file manager for Linux with tabs, split panes, file previews and an Explore dashboard for your library. Use the native packages for deeper KDE network integration.</p>
+            <div class="guide-actions">
+              <a class="button guide-primary" href="#installation"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="Kurulum adımları">Installation steps</span></a>
+              <a class="text-link" href="https://github.com/G-grbz/Lurviko"><span class="icon icon-repo" aria-hidden="true"></span> GitHub</a>
+              <a class="text-link" href="https://github.com/G-grbz/Lurviko/releases/latest"><span class="icon icon-download" aria-hidden="true"></span> <span data-tr="Sürümler">Releases</span></a>
+            </div>
+          </header>
+          <nav class="guide-toc" aria-label="On this page" data-tr-label="Bu sayfada">
+            <a href="#features"><span data-tr="Özellikler">Features</span></a>
+            <a href="#installation"><span data-tr="Linux kurulumu">Install on Linux</span></a>
+            <a href="#configuration"><span data-tr="İlk kullanım ve bulut hesapları">First use and cloud accounts</span></a>
+            <a href="#source"><span data-tr="Kaynak koddan derleme">Build from source</span></a>
+          </nav>
+          <section class="guide-section" id="features" aria-labelledby="features-title">
+            <h2 id="features-title" data-tr="Özellikler">Features</h2>
+            <ul>
+              <li><span data-tr="Izgara, liste veya Miller Sütunlarıyla gezinin. Sekmeleri, bölünmüş panelleri, favorileri ve toplu yeniden adlandırmayı kullanın.">Browse with grid, list or Miller Columns, and use tabs, split panes, favorites and batch rename.</span></li>
+              <li><span data-tr="Fotoğrafları önizleyin, müzik ve video oynatın. Keşfet seçili medya klasörlerini indeksler. Oynatıcı altyazı ve bölümleri gösterebilir.">Preview photos and play music and video. Explore indexes selected media folders, and the player can show subtitles and chapters.</span></li>
+              <li><span data-tr="Google Drive ve OneDrive’da gezinin, KDE KIO konumlarını kullanın ve desteklenen dizinlerde Git durumuna ve geçmişine bakın.">Browse Google Drive and OneDrive, use KDE KIO locations, and inspect Git status and history where supported.</span></li>
+              <li><span data-tr="Şifreli yerel kasaları ve isteğe bağlı KWallet hızlı açmayı kullanın. Kurtarma bilgilerini ayrı ve güvenli bir yerde saklayın.">Use encrypted local vaults and optional KWallet quick unlock. Keep recovery information in a separate secure location.</span></li>
+            </ul>
+            <a class="text-link" href="https://github.com/G-grbz/Lurviko/blob/main/docs/file-browser.md"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="Dosya görünümleri ve masaüstü entegrasyonu">File views and desktop integration</span></a>
+          </section>
+          <section class="guide-section" id="installation" aria-labelledby="installation-title">
+            <h2 id="installation-title" data-tr="Linux kurulumu">Install on Linux</h2>
+            <ol>
+              <li><span data-tr="GitHub Releases sayfasını açın ve x86-64 dağıtımınıza uygun paketi seçin. AppImage glibc 2.39 veya üzerini gerektirir.">Open GitHub Releases and choose a package for your x86-64 distribution. The AppImage requires glibc 2.39 or newer.</span></li>
+              <li><span data-tr="SFTP, SMB veya MTP için ek KIO bileşenleri gerekiyorsa yerel paketi kullanın. AppImage temel yerel ve web bileşenlerini içerir.">Use the native package when you need extra KIO workers for SFTP, SMB or MTP. AppImage includes the common local and web workers.</span></li>
+              <li><span data-tr="Aşağıdaki kurulum yöntemlerinden birini seçin. Yerel paket kurduktan sonra Lurviko’yu uygulama menüsünden açın.">Pick one installation method below. After installing a native package, open Lurviko from the applications menu.</span></li>
+            </ol>
+            <!-- PKG:lurviko -->
+            <div class="pkg" data-pkg>
+              <p class="pkg-title" data-tr="Son sürümü kur">Install the latest release</p>
+              <div class="pkg-tabs" role="tablist" aria-label="Lurviko packages" data-tr-label="Lurviko paketleri">
+                <button type="button" class="pkg-tab" role="tab" id="pk-lurviko-tab-aur" aria-controls="pk-lurviko-aur" aria-selected="false" data-os="linux">AUR</button>
+                <button type="button" class="pkg-tab" role="tab" id="pk-lurviko-tab-arch" aria-controls="pk-lurviko-arch" aria-selected="false" data-os="linux">Arch</button>
+                <button type="button" class="pkg-tab" role="tab" id="pk-lurviko-tab-deb" aria-controls="pk-lurviko-deb" aria-selected="false" data-os="linux">Debian</button>
+                <button type="button" class="pkg-tab" role="tab" id="pk-lurviko-tab-rpm" aria-controls="pk-lurviko-rpm" aria-selected="false" data-os="linux">Fedora</button>
+                <button type="button" class="pkg-tab" role="tab" id="pk-lurviko-tab-appimage" aria-controls="pk-lurviko-appimage" aria-selected="false" data-os="linux">AppImage</button>
+              </div>
+              <div class="pkg-panel" role="tabpanel" id="pk-lurviko-aur" aria-labelledby="pk-lurviko-tab-aur">
+                <p class="pkg-hint"><b class="pkg-type">yay</b> <span data-tr="Arch Linux ve türevleri, AUR yardımcısıyla">Arch Linux and derivatives, with an AUR helper</span></p>
+                <div class="command">
+                  <pre><code>yay -S lurviko</code></pre>
+                  <button type="button" class="copy" aria-label="Copy the Lurviko AUR command" data-tr-label="Lurviko AUR komutunu kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+                </div>
+              </div>
+              <div class="pkg-panel" role="tabpanel" id="pk-lurviko-arch" aria-labelledby="pk-lurviko-tab-arch">
+                <p class="pkg-hint"><b class="pkg-type">.pkg.tar.zst</b> <span data-tr="Arch Linux, Manjaro, EndeavourOS">Arch Linux, Manjaro, EndeavourOS</span></p>
+                <div class="command">
+                  <pre><code>curl -fsSL https://api.github.com/repos/G-grbz/Lurviko/releases/latest \
+  | jq -r &#x27;.assets[] | select(.name | endswith(&quot;-x86_64.pkg.tar.zst&quot;)) | .browser_download_url&#x27; \
+  | xargs -r sudo pacman -U</code></pre>
+                  <button type="button" class="copy" aria-label="Copy the Lurviko Arch command" data-tr-label="Lurviko Arch komutunu kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+                </div>
+              </div>
+              <div class="pkg-panel" role="tabpanel" id="pk-lurviko-deb" aria-labelledby="pk-lurviko-tab-deb">
+                <p class="pkg-hint"><b class="pkg-type">.deb</b> <span data-tr="Debian 13 (trixie)">Debian 13 (trixie)</span></p>
+                <div class="command">
+                  <pre><code>curl -fsSL https://api.github.com/repos/G-grbz/Lurviko/releases/latest \
+  | jq -r &#x27;.assets[] | select(.name | endswith(&quot;_amd64.deb&quot;)) | .browser_download_url&#x27; \
+  | xargs -r curl -fLo /tmp/lurviko.deb \
+  &amp;&amp; sudo apt install /tmp/lurviko.deb</code></pre>
+                  <button type="button" class="copy" aria-label="Copy the Lurviko Debian command" data-tr-label="Lurviko Debian komutunu kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+                </div>
+              </div>
+              <div class="pkg-panel" role="tabpanel" id="pk-lurviko-rpm" aria-labelledby="pk-lurviko-tab-rpm">
+                <p class="pkg-hint"><b class="pkg-type">.rpm</b> <span data-tr="Fedora 43 ve üzeri">Fedora 43 and newer</span></p>
+                <div class="command">
+                  <pre><code>curl -fsSL https://api.github.com/repos/G-grbz/Lurviko/releases/latest \
+  | jq -r &#x27;.assets[] | select(.name | endswith(&quot;.x86_64.rpm&quot;)) | .browser_download_url&#x27; \
+  | xargs -r sudo dnf install -y</code></pre>
+                  <button type="button" class="copy" aria-label="Copy the Lurviko Fedora command" data-tr-label="Lurviko Fedora komutunu kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+                </div>
+              </div>
+              <div class="pkg-panel" role="tabpanel" id="pk-lurviko-appimage" aria-labelledby="pk-lurviko-tab-appimage">
+                <p class="pkg-hint"><b class="pkg-type">.AppImage</b> <span data-tr="glibc 2.39 veya üzerine sahip tüm dağıtımlar. ~/Applications klasörüne kaydedilip açılır.">Any distribution with glibc 2.39 or newer. Saved to ~/Applications and opened.</span></p>
+                <div class="command">
+                  <pre><code>mkdir -p ~/Applications \
+  &amp;&amp; curl -fsSL https://api.github.com/repos/G-grbz/Lurviko/releases/latest \
+  | jq -r &#x27;.assets[] | select(.name | endswith(&quot;.AppImage&quot;)) | .browser_download_url&#x27; \
+  | xargs -r curl -fLo ~/Applications/Lurviko.AppImage \
+  &amp;&amp; chmod +x ~/Applications/Lurviko.AppImage \
+  &amp;&amp; ~/Applications/Lurviko.AppImage</code></pre>
+                  <button type="button" class="copy" aria-label="Copy the Lurviko AppImage command" data-tr-label="Lurviko AppImage komutunu kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+                </div>
+              </div>
+              <p class="pkg-note"><span data-tr="Linux komutları için">Linux commands need</span> <code>curl</code> <span data-tr="ve">and</span> <code>jq</code><span data-tr=" gerekir. Komutlar her zaman GitHub’daki son sürümü indirir.">. They always download the latest release from GitHub.</span></p>
+            </div>
+            <!-- /PKG:lurviko -->
+            <div class="guide-example">
+              <p class="example-title" data-tr="Lurviko AppImage komutları">Lurviko AppImage commands</p>
+              <div class="command">
+                <pre><code>chmod +x ./Lurviko-*.AppImage
+./Lurviko-*.AppImage</code></pre>
+                <button type="button" class="copy" aria-label="Copy Lurviko AppImage commands" data-tr-label="Lurviko AppImage komutlarını kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+              </div>
+            </div>
+            <p><span data-tr="FUSE yoksa çalıştırılabilir dosyayı ">When FUSE is unavailable, run the executable with </span><code>APPIMAGE_EXTRACT_AND_RUN=1</code><span data-tr=" ayarıyla başlatın."> set.</span></p>
+            <h3 data-tr="Yerel paketler">Native packages</h3>
+            <div class="guide-example">
+              <p class="example-title" data-tr="Debian paket komutu">Debian package command</p>
+              <div class="command">
+                <pre><code>sudo apt install ./lurviko_*_amd64.deb</code></pre>
+                <button type="button" class="copy" aria-label="Copy Debian package command" data-tr-label="Debian paket komutunu kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+              </div>
+            </div>
+            <div class="guide-example">
+              <p class="example-title" data-tr="Fedora paket komutu">Fedora package command</p>
+              <div class="command">
+                <pre><code>sudo dnf install ./lurviko-*.x86_64.rpm</code></pre>
+                <button type="button" class="copy" aria-label="Copy Fedora package command" data-tr-label="Fedora paket komutunu kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+              </div>
+            </div>
+            <div class="guide-example">
+              <p class="example-title" data-tr="Arch paket komutu">Arch package command</p>
+              <div class="command">
+                <pre><code>sudo pacman -U ./lurviko-*.pkg.tar.zst</code></pre>
+                <button type="button" class="copy" aria-label="Copy Arch package command" data-tr-label="Arch paket komutunu kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+              </div>
+            </div>
+            <div class="guide-example">
+              <p class="example-title" data-tr="Arch AUR komutu">Arch AUR command</p>
+              <div class="command">
+                <pre><code>yay -S lurviko</code></pre>
+                <button type="button" class="copy" aria-label="Copy Arch AUR command" data-tr-label="Arch AUR komutunu kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+              </div>
+            </div>
+            <a class="text-link" href="https://github.com/G-grbz/Lurviko#download-prebuilt-packages"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="Paket uyumluluğu ve sağlama toplamları">Package compatibility and checksums</span></a>
+          </section>
+          <section class="guide-section" id="configuration" aria-labelledby="configuration-title">
+            <h2 id="configuration-title" data-tr="İlk kullanım ve bulut hesapları">First use and cloud accounts</h2>
+            <ol>
+              <li><span data-tr="Tercih ettiğiniz dosya görünümünü seçin. İki klasörde yan yana çalışmak için bölünmüş görünümü açın.">Choose your preferred file view and turn on a split pane if you want to work in two folders side by side.</span></li>
+              <li><span data-tr="Keşfet’te indekslenmesini istediğiniz medya klasörlerini ekleyin. Desteklenen video, fotoğraf ve ses dosyaları için oynatıcıyı kullanın.">In Explore, add media roots you want indexed. Use the player for supported videos, photos and audio files.</span></li>
+              <li><span data-tr="Google Drive veya OneDrive için sağlayıcının OAuth uygulama bilgilerini oluşturun ya da edinin. Bilgileri Lurviko’ya ekleyin ve tarayıcıda sağlayıcıya giriş yapın.">For Google Drive or OneDrive, create or obtain the provider’s OAuth application credentials, add them in Lurviko and sign in through the provider in your browser.</span></li>
+              <li><span data-tr="Şifreli klasörler için kasa oluşturun ve KWallet hızlı açmayı kullanıp kullanmayacağınıza karar verin. Oluşturursanız kurtarma anahtarını gizli tutun.">For encrypted folders, create a vault and choose whether to enable KWallet quick unlock. Keep its recovery key private if you create one.</span></li>
+            </ol>
+            <a class="text-link" href="https://github.com/G-grbz/Lurviko/blob/main/docs/cloud-accounts.md"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="Google Drive ve OneDrive kurulumu">Google Drive and OneDrive setup</span></a>
+            <a class="text-link" href="https://github.com/G-grbz/Lurviko/blob/main/docs/vault-recovery.md"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="Kasa kurtarma">Vault recovery</span></a>
+          </section>
+          <section class="guide-section" id="source" aria-labelledby="source-title">
+            <h2 id="source-title" data-tr="Kaynak koddan derleme">Build from source</h2>
+            <p data-tr="Qt 6.8+, KDE Frameworks 6, OpenSSL 3.2+, CMake 3.21+, Ninja ve C++17 derleyicisini kurun. Resmî yönergelerdeki dağıtımınıza uygun bağımlılık listesini kullanın.">Install Qt 6.8+, KDE Frameworks 6, OpenSSL 3.2+, CMake 3.21+, Ninja and a C++17 compiler. Use the dependency list for your distribution in the official instructions.</p>
+            <div class="guide-example">
+              <p class="example-title" data-tr="Lurviko derleme komutları">Lurviko build commands</p>
+              <div class="command">
+                <pre><code>git clone https://github.com/G-grbz/Lurviko.git
+cd Lurviko
+cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+cmake --build build --parallel 4
+./build/lurviko</code></pre>
+                <button type="button" class="copy" aria-label="Copy Lurviko build commands" data-tr-label="Lurviko derleme komutlarını kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+              </div>
+            </div>
+            <div class="guide-example">
+              <p class="example-title" data-tr="Lurviko kullanıcı kurulumu">Lurviko user installation</p>
+              <div class="command">
+                <pre><code>cmake --install build --prefix &quot;$HOME/.local&quot;
+update-desktop-database &quot;$HOME/.local/share/applications&quot;</code></pre>
+                <button type="button" class="copy" aria-label="Copy Lurviko user installation" data-tr-label="Lurviko kullanıcı kurulumunu kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+              </div>
+            </div>
+            <p><span data-tr="Kullanıcıya özel kurulan başlatıcı için ">Keep </span><code>$HOME/.local/bin</code><span data-tr=" dizinini masaüstü oturumunuzun "> in your desktop session’s </span><code>PATH</code><span data-tr=" değişkenine ekleyin."> for the user-installed launcher.</span></p>
+            <a class="text-link" href="https://github.com/G-grbz/Lurviko#build-and-install"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="Tüm bağımlılıklar ve derleme adımları">Full dependency and build instructions</span></a>
+          </section>
+        </article>
+        <p id="copy-status" class="visually-hidden" role="status"></p>
+      </main>
+    </div>
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <a class="brand" href="../../"><img src="../../assets/img/logo.png" alt="G-grbz" width="1024" height="548"></a>
+        <a class="text-link" href="https://github.com/G-grbz"><span class="icon icon-repo" aria-hidden="true"></span> <span data-tr="GitHub profili">GitHub profile</span></a>
+      </div>
+    </footer>
+  </body>
+</html>

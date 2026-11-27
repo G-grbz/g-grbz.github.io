@@ -1,0 +1,13 @@
+{
+  "name": "gharmonize-player-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "fetch-library": "node scripts/fetch-library.mjs",
+    "build": "node build.mjs"
+  },
+  "devDependencies": {
+    "@sqlite.org/sqlite-wasm": "3.54.1-build1",
+    "esbuild": "0.28.2"
+  }
+}

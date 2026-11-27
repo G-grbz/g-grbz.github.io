@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0c1d1a">
+    <title data-tr="G-TMCE Kurulumu | MKV Oluşturma, Çıkarma ve TMDB">G-TMCE Setup | MKV Remuxing, Extraction and TMDB</title>
+    <meta name="description" content="Remux TV seasons, extract and edit MKV tracks in batches, and translate subtitles or generate them from audio with local AI on Linux and Windows." data-tr-content="Dizi sezonlarını toplu işleyin, MKV parçalarını çıkarıp düzenleyin. Yerel yapay zekâyla altyazı çevirin veya ses parçasından altyazı üretin.">
+    <link rel="canonical" href="https://g-grbz.github.io/projects/g-tmce/">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="G-grbz">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="tr_TR">
+    <meta property="og:url" content="https://g-grbz.github.io/projects/g-tmce/">
+    <meta property="og:title" content="G-TMCE Setup | MKV Remuxing, Extraction and TMDB" data-tr-content="G-TMCE Kurulumu | MKV Oluşturma, Çıkarma ve TMDB">
+    <meta property="og:description" content="Remux TV seasons, extract and edit MKV tracks in batches, and translate subtitles or generate them from audio with local AI on Linux and Windows." data-tr-content="Dizi sezonlarını toplu işleyin, MKV parçalarını çıkarıp düzenleyin. Yerel yapay zekâyla altyazı çevirin veya ses parçasından altyazı üretin.">
+    <meta property="og:image" content="https://g-grbz.github.io/assets/img/social-card.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="G-grbz and the four project logos" data-tr-content="G-grbz ve dört proje logosu">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "G-TMCE Setup | MKV Remuxing, Extraction and TMDB",
+      "description": "Remux TV seasons, extract and edit MKV tracks in batches, and translate subtitles or generate them from audio with local AI on Linux and Windows.",
+      "url": "https://g-grbz.github.io/projects/g-tmce/",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "G-grbz",
+        "url": "https://g-grbz.github.io/"
+      },
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "G-TMCE",
+        "url": "https://github.com/G-grbz/G-TMCE"
+      }
+    }
+    </script>
+    <link rel="icon" href="../../assets/img/favicon-96.png" type="image/png" sizes="96x96">
+    <script>
+      (() => {
+        const d = document.documentElement;
+        let theme, lang;
+        try { theme = localStorage.getItem("theme"); lang = localStorage.getItem("lang"); } catch {}
+        d.dataset.theme = theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        if ((lang || (/^tr(?:-|$)/i.test(navigator.language) ? "tr" : "en")) === "tr") {
+          d.classList.add("tr-pending");
+          setTimeout(() => d.classList.remove("tr-pending"), 1500);
+        }
+      })();
+    </script>
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <script src="../../assets/portal.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content" data-tr="İçeriğe geç">Skip to content</a>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="../../"><img src="../../assets/img/logo.png" alt="G-grbz" width="1024" height="548"></a>
+        <nav class="nav" aria-label="Main navigation" data-tr-label="Ana menü">
+          <a href="../../#projects" data-tr="Projeler">Projects</a>
+          <a href="../../#setup" data-tr="Kurulum">Setup</a>
+          <a class="nav-github" href="https://github.com/G-grbz" aria-label="GitHub"><span class="icon icon-repo" aria-hidden="true"></span> <span class="nav-label">GitHub</span></a>
+        </nav>
+      </div>
+    </header>
+    <div class="shell workspace">
+      <nav class="sidebar" aria-label="Project navigation" data-tr-label="Proje gezintisi">
+        <p class="sidebar-title" data-tr="Proje rehberleri">Project guides</p>
+        <ul class="sidebar-links">
+          <li><a class="sidebar-link" href="../../"><span class="sidebar-icon sidebar-home"><span class="icon icon-apps" aria-hidden="true"></span></span> <span data-tr="Portala genel bakış">Portal overview</span></a></li>
+          <li><a class="sidebar-link project-music" href="../../projects/gharmonize/"><span class="sidebar-icon"><img src="../../assets/img/projects/gharmonize.webp" width="192" height="192" alt=""></span> <span>Gharmonize</span></a></li>
+          <li><a class="sidebar-link project-movies" href="../../projects/g-tmce/" aria-current="page"><span class="sidebar-icon"><img src="../../assets/img/projects/g-tmce.webp" width="192" height="192" alt=""></span> <span>G-TMCE</span></a></li>
+          <li><a class="sidebar-link project-folder" href="../../projects/lurviko/"><span class="sidebar-icon"><img src="../../assets/img/projects/lurviko.webp" width="192" height="157" alt=""></span> <span>Lurviko</span></a></li>
+          <li><a class="sidebar-link project-wifi" href="../../projects/g-hotspot/"><span class="sidebar-icon"><img src="../../assets/img/projects/g-hotspot.webp" width="192" height="192" alt=""></span> <span>G-Hotspot</span></a></li>
+        </ul>
+      </nav>
+      <main class="guide" id="content" tabindex="-1">
+        <article>
+          <header class="guide-hero project-movies">
+            <div class="guide-heading">
+              <span class="project-icon"><img src="../../assets/img/projects/g-tmce.webp" width="192" height="192" alt=""></span>
+              <h1>G-TMCE</h1>
+            </div>
+            <p class="guide-intro" data-tr="MKVToolNix ve FFmpeg ile Matroska dosyaları oluşturun ve parçalarını çıkarın. Parça dillerini ve varsayılanları ayarlayın, kaynak zamanlamasını koruyun, TMDB görselleri ve bilgileri ekleyin.">Create and extract Matroska files using MKVToolNix and FFmpeg. Set track languages and defaults, preserve source timing, and add TMDB artwork and metadata.</p>
+            <div class="guide-actions">
+              <a class="button guide-primary" href="#installation"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="Kurulum adımları">Installation steps</span></a>
+              <a class="text-link" href="https://github.com/G-grbz/G-TMCE"><span class="icon icon-repo" aria-hidden="true"></span> GitHub</a>
+              <a class="text-link" href="https://github.com/G-grbz/G-TMCE/releases/latest"><span class="icon icon-download" aria-hidden="true"></span> <span data-tr="Sürümler">Releases</span></a>
+            </div>
+          </header>
+          <nav class="guide-toc" aria-label="On this page" data-tr-label="Bu sayfada">
+            <a href="#features"><span data-tr="Özellikler">Features</span></a>
+            <a href="#installation"><span data-tr="Linux veya Windows kurulumu">Install on Linux or Windows</span></a>
+            <a href="#workflow"><span data-tr="MKV ve sezon işlemleri">MKV and season workflows</span></a>
+            <a href="#ai-subtitles"><span data-tr="Yapay zekâ ile altyazı">AI subtitles</span></a>
+            <a href="#configuration"><span data-tr="Ayarlar ve TMDB">Settings and TMDB</span></a>
+          </nav>
+          <section class="guide-section" id="features" aria-labelledby="features-title">
+            <h2 id="features-title" data-tr="Özellikler">Features</h2>
+            <ul>
+              <li><span data-tr="mkvmerge komutları yazmadan video, ses, altyazı, bölüm ve ek dosyalardan MKV oluşturun.">Build MKV files from video, audio, subtitles, chapters and attachments without writing mkvmerge commands.</span></li>
+              <li><span data-tr="Düzenlemek veya yeniden paketlemek için seçili parçaları ve ekleri çıkarın. Otomatik kaydedilen zamanlama dosyalarını kaynak parçalarla birlikte tutun.">Extract selected tracks and attachments for editing or remuxing. Keep automatically saved timing files with the source tracks.</span></li>
+              <li><span data-tr="Bir dizinin sezonunu tek işlemde çıkarın. Her bölümün ses ve altyazı parçalarını ayrı ayrı düzenleyip sezonu topluca yeniden paketleyin.">Extract an entire TV season in one batch. Edit audio and subtitle tracks per episode, then remux the season in a single run.</span></li>
+              <li><span data-tr="Mevcut altyazıları yerel yapay zekâyla başka dillere çevirin. Ses parçalarından kaynak dilde altyazı üretip sonucu istediğiniz dile çevirebilirsiniz.">Translate existing subtitles with local AI. Generate subtitles from an audio track in its original language, then translate them into the language you choose.</span></li>
+              <li><span data-tr="Ses gecikmelerini ayarlayın, varsayılan ses ve altyazı dillerini seçin, zorunlu veya SDH altyazıları işleyin.">Apply audio delays, choose default audio and subtitle languages, and handle forced or SDH subtitles.</span></li>
+              <li><span data-tr="TMDB kapak ve afişlerini alın, etiket üretin, film veya diziye göre bölüm ve dosya adlarını hazırlayın.">Fetch TMDB covers and artwork, generate tags, and prepare chapters and filenames from the title.</span></li>
+            </ul>
+            <a class="text-link" href="https://github.com/G-grbz/G-TMCE#features"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="Tüm özellikler">Complete feature list</span></a>
+          </section>
+          <section class="guide-section" id="installation" aria-labelledby="installation-title">
+            <h2 id="installation-title" data-tr="Linux veya Windows kurulumu">Install on Linux or Windows</h2>
+            <ol>
+              <li><span data-tr="Windows’ta GitHub Releases üzerinden x64 EXE dosyasını indirin ve açın.">On Windows, download the x64 EXE from GitHub Releases and open it.</span></li>
+              <li><span data-tr="Linux’ta x86-64 AppImage dosyasını indirin ve aşağıdaki komutları dosyanın bulunduğu klasörde çalıştırın. Arch kullanıcıları AUR paketini kurabilir.">On Linux, download the x86-64 AppImage and run the commands below from its folder. Arch users can install the AUR package instead.</span></li>
+              <li><span data-tr="İlk kullanımda G-TMCE’nin MKVToolNix ve FFmpeg’i hazırlayabilmesi için internet erişimi sağlayın. Daha önce kurulan araçlar çevrimdışı kullanılabilir.">Allow internet access on first use so G-TMCE can prepare MKVToolNix and FFmpeg. Existing tools remain available for offline operation.</span></li>
+            </ol>
+            <!-- PKG:g-tmce -->
+            <div class="pkg" data-pkg>
+              <p class="pkg-title" data-tr="Son sürümü kur">Install the latest release</p>
+              <div class="pkg-tabs" role="tablist" aria-label="G-TMCE packages" data-tr-label="G-TMCE paketleri">
+                <button type="button" class="pkg-tab" role="tab" id="pk-g-tmce-tab-aur" aria-controls="pk-g-tmce-aur" aria-selected="false" data-os="linux">AUR</button>
+                <button type="button" class="pkg-tab" role="tab" id="pk-g-tmce-tab-appimage" aria-controls="pk-g-tmce-appimage" aria-selected="false" data-os="linux">AppImage</button>
+                <button type="button" class="pkg-tab" role="tab" id="pk-g-tmce-tab-windows" aria-controls="pk-g-tmce-windows" aria-selected="false" data-os="windows">Windows</button>
+              </div>
+              <div class="pkg-panel" role="tabpanel" id="pk-g-tmce-aur" aria-labelledby="pk-g-tmce-tab-aur">
+                <p class="pkg-hint"><b class="pkg-type">yay</b> <span data-tr="Arch Linux ve türevleri, AUR yardımcısıyla">Arch Linux and derivatives, with an AUR helper</span></p>
+                <div class="command">
+                  <pre><code>yay -S g-tmce</code></pre>
+                  <button type="button" class="copy" aria-label="Copy the G-TMCE AUR command" data-tr-label="G-TMCE AUR komutunu kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+                </div>
+              </div>
+              <div class="pkg-panel" role="tabpanel" id="pk-g-tmce-appimage" aria-labelledby="pk-g-tmce-tab-appimage">
+                <p class="pkg-hint"><b class="pkg-type">.AppImage</b> <span data-tr="Tüm x86-64 dağıtımlar. ~/Applications klasörüne kaydedilip açılır.">Any x86-64 distribution. Saved to ~/Applications and opened.</span></p>
+                <div class="command">
+                  <pre><code>mkdir -p ~/Applications \
+  &amp;&amp; curl -fsSL https://api.github.com/repos/G-grbz/G-TMCE/releases/latest \
+  | jq -r &#x27;.assets[] | select(.name | endswith(&quot;.AppImage&quot;)) | .browser_download_url&#x27; \
+  | xargs -r curl -fLo ~/Applications/G-TMCE.AppImage \
+  &amp;&amp; chmod +x ~/Applications/G-TMCE.AppImage \
+  &amp;&amp; ~/Applications/G-TMCE.AppImage</code></pre>
+                  <button type="button" class="copy" aria-label="Copy the G-TMCE AppImage command" data-tr-label="G-TMCE AppImage komutunu kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+                </div>
+              </div>
+              <div class="pkg-panel" role="tabpanel" id="pk-g-tmce-windows" aria-labelledby="pk-g-tmce-tab-windows">
+                <p class="pkg-hint"><b class="pkg-type">.exe</b> <span data-tr="Kurulum gerektirmez. İndirip çalıştırın.">No installation needed. Download it and run it.</span></p>
+                <div class="pkg-download">
+                  <a class="button button-download" href="https://github.com/G-grbz/G-TMCE/releases/latest" data-asset-repo="G-TMCE" data-asset-match="win-x64\.exe$" aria-label="Download G-TMCE (Windows)" data-tr-label="G-TMCE (Windows) indir"><span class="icon icon-download" aria-hidden="true"></span> <span data-tr="İndir">Download</span></a>
+                  <span class="pkg-file" data-asset-info></span>
+                </div>
+              </div>
+              <p class="pkg-note"><span data-tr="Linux komutları için">Linux commands need</span> <code>curl</code> <span data-tr="ve">and</span> <code>jq</code><span data-tr=" gerekir. Komutlar her zaman GitHub’daki son sürümü indirir.">. They always download the latest release from GitHub.</span></p>
+            </div>
+            <!-- /PKG:g-tmce -->
+            <div class="guide-example">
+              <p class="example-title" data-tr="G-TMCE AppImage komutları">G-TMCE AppImage commands</p>
+              <div class="command">
+                <pre><code>chmod +x ./G-TMCE-*.AppImage
+./G-TMCE-*.AppImage</code></pre>
+                <button type="button" class="copy" aria-label="Copy G-TMCE AppImage commands" data-tr-label="G-TMCE AppImage komutlarını kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+              </div>
+            </div>
+            <div class="guide-example">
+              <p class="example-title" data-tr="G-TMCE AUR komutları">G-TMCE AUR commands</p>
+              <div class="command">
+                <pre><code>yay -S g-tmce
+g-tmce</code></pre>
+                <button type="button" class="copy" aria-label="Copy G-TMCE AUR commands" data-tr-label="G-TMCE AUR komutlarını kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+              </div>
+            </div>
+            <h3 data-tr="Linux’ta kaynak koddan çalıştırma">Run from source on Linux</h3>
+            <p data-tr="Python 3.10 veya üzerini ve dağıtımınızın gerektirdiği Qt platform kütüphanelerini kurun.">Install Python 3.10 or newer and the Qt platform libraries required by your distribution.</p>
+            <div class="guide-example">
+              <p class="example-title" data-tr="G-TMCE kaynak kurulumu">G-TMCE source installation</p>
+              <div class="command">
+                <pre><code>git clone https://github.com/G-grbz/G-TMCE.git
+cd G-TMCE
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install -r requirements.txt
+python mkv_creator_ui.py</code></pre>
+                <button type="button" class="copy" aria-label="Copy G-TMCE source installation" data-tr-label="G-TMCE kaynak kurulumunu kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+              </div>
+            </div>
+            <a class="text-link" href="https://github.com/G-grbz/G-TMCE#installation"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="Paketler ve platform gereksinimleri">Packages and platform requirements</span></a>
+          </section>
+          <section class="guide-section" id="workflow" aria-labelledby="workflow-title">
+            <h2 id="workflow-title" data-tr="MKV ve sezon işlemleri">MKV and season workflows</h2>
+            <h3 data-tr="Seçili parçaları çıkarma">Extract selected tracks</h3>
+            <ol>
+              <li><span data-tr="Kaynak MKV’yi seçin ve parçaların taranmasını bekleyin. Gerektiğinde Scan MKV ile listeyi yenileyin.">Select the source MKV and wait for its tracks to be scanned. Use Scan MKV to refresh the list if needed.</span></li>
+              <li><span data-tr="İstediğiniz video, ses, altyazı veya ekleri seçin ve Extract Selected düğmesine basın.">Select the video, audio, subtitles or attachments you want and choose Extract Selected.</span></li>
+              <li><span data-tr="Yeniden paketlemede çıkarılan klasörü bir arada tutun. Çalışma alanı ">Keep the extracted folder together when remuxing. The workspace can contain a </span><code>.gtmce/</code><span data-tr=" dizinini ve kaynak zamanlama dosyalarını içerebilir."> directory and source timestamp files.</span></li>
+            </ol>
+            <h3 data-tr="Etiket ekleme ve yeniden paketleme">Add metadata and remux</h3>
+            <ol>
+              <li><span data-tr="Parça klasörünü seçin. TMDB API anahtarınızı girin, film ya da dizi türünü ve görsel ile etiket dillerini belirleyin.">Choose the track folder. Enter your TMDB API key, select movie or TV, and choose artwork and tag languages.</span></li>
+              <li><span data-tr="Find ID ile başlığı doğrulayın. Varsayılan ses ve altyazı parçalarını belirleyin. TMDB dosyaları için Download Artwork/Tags seçeneğini kullanın.">Use Find ID to confirm the title. Choose the default audio and subtitle tracks, then use Download Artwork/Tags if you want TMDB assets.</span></li>
+              <li><span data-tr="Create MKV düğmesine basın.">Select Create MKV.</span></li>
+            </ol>
+            <h3 data-tr="Dizi sezonunu toplu işleme">Process an entire TV season</h3>
+            <ol>
+              <li><span data-tr="Sezon klasörünü seçin ve Klasörü Çıkar düğmesine basın. G-TMCE seçilen parçaları bölüm başına ayrı bir çalışma klasörüne çıkarır.">Select the season folder and choose Extract Folder. G-TMCE extracts the selected tracks into a separate workspace for each episode.</span></li>
+              <li><span data-tr="MKV öncesi parça ekle seçeneğini etkinleştirin ve Çıkan Klasörleri Birleştir düğmesine basın. Bölüm sekmelerinde ses ve altyazı ekleyin, kullanılacak parçaları seçin, sıralayın veya gecikmelerini ayarlayın.">Enable Add tracks before muxing and choose Mux Extracted Folder. Use the episode tabs to add audio or subtitle tracks, choose which tracks to include, reorder them, or adjust their delays.</span></li>
+              <li><span data-tr="Toplu işlemi onaylayın. G-TMCE her bölüm için ayrı bir MKV oluşturur ve bölüm bazındaki seçimleri uygular.">Confirm the batch. G-TMCE creates a separate MKV for each episode using that episode’s settings.</span></li>
+            </ol>
+            <a class="text-link" href="https://github.com/G-grbz/G-TMCE#track-folder-naming-rules"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="Parça adlandırma kuralları ve örnekler">Track naming rules and examples</span></a>
+          </section>
+          <section class="guide-section" id="ai-subtitles" aria-labelledby="ai-subtitles-title">
+            <h2 id="ai-subtitles-title" data-tr="Yapay zekâ ile altyazı">AI subtitles</h2>
+            <ul>
+              <li><span data-tr="Mevcut altyazıyı çevirmek için ana ekranda Altyazı Oluştur aracını açın. SRT, ASS, SSA veya VTT dosyasını ve kaynak ile hedef dilleri seçip Başlat’a basın. Çeviri altyazının zamanlamasını korur ve ayrı bir dosyaya kaydedilir.">To translate an existing subtitle, open Create Subtitle from the main window. Select an SRT, ASS, SSA, or VTT file, choose the source and target languages, and press Start. The translation keeps the cue timing and is saved as a separate file.</span></li>
+              <li><span data-tr="Sesten altyazı üretmek için Ses Ayarla penceresinde bir ses parçası seçin ve Altyazı Oluştur düğmesine basın. Whisper konuşmayı kaynak dilde yazıya döker ve bir SRT dosyası oluşturur.">To generate subtitles from audio, choose an audio track in Adjust Audio and select Create Subtitle. Whisper transcribes the dialogue in its original language and writes an SRT file.</span></li>
+              <li><span data-tr="Ses parçasından başka dilde altyazı almak için aynı pencerede AI Çeviri’yi ve hedef dili seçin. G-TMCE varsa daha önce oluşturulan SRT’yi kullanır, gerekirse önce sesten altyazı üretir.">To produce translated subtitles from an audio track, choose AI Translate in the same window and select a target language. G-TMCE reuses the generated SRT when available and transcribes the audio first when needed.</span></li>
+            </ul>
+            <p data-tr="Modeller ilk kullanımda indirilir. Konuşmayı yazıya dökme ve çeviri cihazınızda çalışır. Çeviri beta aşamasındadır. Altyazıyı kullanmadan önce gözden geçirin.">Models are downloaded on first use. Transcription and translation run on your device. Translation is in beta, so review the subtitles before using them.</p>
+            <a class="text-link" href="https://github.com/G-grbz/G-TMCE#local-audio-to-subtitle-engine"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="Altyazı modelleri ve çeviri seçenekleri">Subtitle models and translation options</span></a>
+          </section>
+          <section class="guide-section" id="configuration" aria-labelledby="configuration-title">
+            <h2 id="configuration-title" data-tr="Ayarlar ve TMDB">Settings and TMDB</h2>
+            <div class="guide-table"><table>
+              <thead><tr><th scope="col" data-tr="Ayar">Setting</th><th scope="col" data-tr="İşlevi">What it does</th></tr></thead>
+              <tbody>
+                <tr><th scope="row"><code>TMDB API key</code></th><td><span data-tr="Çevrimiçi arama ve bilgi indirmeyi etkinleştirir. Uygulamaya kendi anahtarınızı girin.">Enables online search and metadata downloads. Enter your own key in the application.</span></td></tr>
+                <tr><th scope="row"><code>Artwork / tag language</code></th><td><span data-tr="G-TMCE’nin kapaklar ve etiketler için tercih edeceği dilleri seçin.">Choose the languages G-TMCE should prefer for covers and metadata.</span></td></tr>
+                <tr><th scope="row"><span data-tr="Bir kez üzerine yaz">Overwrite once</span></th><td><span data-tr="Bir sonraki başarılı TMDB işleminde kayıtlı görsel ve etiketleri yeniler. Bir görsel veya etiket yazıldığında seçenek kapanır.">Refresh existing TMDB artwork and tags once. The option clears after an artwork or tag file is written successfully.</span></td></tr>
+                <tr><th scope="row"><code>FPS / chapter settings</code></th><td><span data-tr="Kare hızı geçersiz kılmayı kaynak gerektirdiğinde kullanın. Oluşturulan bölümleri bölüm ayarlarından yönetin.">Choose a frame rate override only when the source calls for it. Use chapter settings to control generated chapters.</span></td></tr>
+                <tr><th scope="row"><code>settings.json</code></th><td><span data-tr="Linux’ta tercihler otomatik olarak ">On Linux, automatic preferences are stored under </span><code>~/.config/g-tmce/</code><span data-tr=" dizinine kaydedilir.">.</span></td></tr>
+              </tbody>
+            </table></div>
+            <a class="text-link" href="https://github.com/G-grbz/G-TMCE#tmdb-integration"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="TMDB bilgileri, görseller ve etiketler">TMDB metadata, artwork and tags</span></a>
+          </section>
+        </article>
+        <p id="copy-status" class="visually-hidden" role="status"></p>
+      </main>
+    </div>
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <a class="brand" href="../../"><img src="../../assets/img/logo.png" alt="G-grbz" width="1024" height="548"></a>
+        <a class="text-link" href="https://github.com/G-grbz"><span class="icon icon-repo" aria-hidden="true"></span> <span data-tr="GitHub profili">GitHub profile</span></a>
+      </div>
+    </footer>
+  </body>
+</html>

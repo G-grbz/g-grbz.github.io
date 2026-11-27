@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0c1d1a">
+    <title data-tr="Gharmonize Kurulumu | Masaüstü, Docker ve Player">Gharmonize Setup | Desktop, Docker and Player</title>
+    <meta name="description" content="Install Gharmonize on Linux or Windows, deploy it with Docker Compose, configure environment variables, and connect the Android Player." data-tr-content="Gharmonize’ı Linux veya Windows’ta kurun, Docker Compose ile çalıştırın, ortam değişkenlerini ayarlayın ve Android Player’ı bağlayın.">
+    <link rel="canonical" href="https://g-grbz.github.io/projects/gharmonize/">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="G-grbz">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="tr_TR">
+    <meta property="og:url" content="https://g-grbz.github.io/projects/gharmonize/">
+    <meta property="og:title" content="Gharmonize Setup | Desktop, Docker and Player" data-tr-content="Gharmonize Kurulumu | Masaüstü, Docker ve Player">
+    <meta property="og:description" content="Install Gharmonize on Linux or Windows, deploy it with Docker Compose, configure environment variables, and connect the Android Player." data-tr-content="Gharmonize’ı Linux veya Windows’ta kurun, Docker Compose ile çalıştırın, ortam değişkenlerini ayarlayın ve Android Player’ı bağlayın.">
+    <meta property="og:image" content="https://g-grbz.github.io/assets/img/social-card.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="G-grbz and the four project logos" data-tr-content="G-grbz ve dört proje logosu">
+    <meta name="twitter:card" content="summary_large_image">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Gharmonize Setup | Desktop, Docker and Player",
+      "description": "Install Gharmonize on Linux or Windows, deploy it with Docker Compose, configure environment variables, and connect the Android Player.",
+      "url": "https://g-grbz.github.io/projects/gharmonize/",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "G-grbz",
+        "url": "https://g-grbz.github.io/"
+      },
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "Gharmonize",
+        "url": "https://github.com/G-grbz/Gharmonize"
+      }
+    }
+    </script>
+    <link rel="icon" href="../../assets/img/favicon-96.png" type="image/png" sizes="96x96">
+    <script>
+      (() => {
+        const d = document.documentElement;
+        let theme, lang;
+        try { theme = localStorage.getItem("theme"); lang = localStorage.getItem("lang"); } catch {}
+        d.dataset.theme = theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        if ((lang || (/^tr(?:-|$)/i.test(navigator.language) ? "tr" : "en")) === "tr") {
+          d.classList.add("tr-pending");
+          setTimeout(() => d.classList.remove("tr-pending"), 1500);
+        }
+      })();
+    </script>
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <script src="../../assets/portal.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content" data-tr="İçeriğe geç">Skip to content</a>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="../../"><img src="../../assets/img/logo.png" alt="G-grbz" width="1024" height="548"></a>
+        <nav class="nav" aria-label="Main navigation" data-tr-label="Ana menü">
+          <a href="../../#projects" data-tr="Projeler">Projects</a>
+          <a href="../../#setup" data-tr="Kurulum">Setup</a>
+          <a class="nav-github" href="https://github.com/G-grbz" aria-label="GitHub"><span class="icon icon-repo" aria-hidden="true"></span> <span class="nav-label">GitHub</span></a>
+        </nav>
+      </div>
+    </header>
+    <div class="shell workspace">
+      <nav class="sidebar" aria-label="Project navigation" data-tr-label="Proje gezintisi">
+        <p class="sidebar-title" data-tr="Proje rehberleri">Project guides</p>
+        <ul class="sidebar-links">
+          <li><a class="sidebar-link" href="../../"><span class="sidebar-icon sidebar-home"><span class="icon icon-apps" aria-hidden="true"></span></span> <span data-tr="Portala genel bakış">Portal overview</span></a></li>
+          <li><a class="sidebar-link project-music" href="../../projects/gharmonize/" aria-current="page"><span class="sidebar-icon"><img src="../../assets/img/projects/gharmonize.webp" width="192" height="192" alt=""></span> <span>Gharmonize</span></a></li>
+          <li><a class="sidebar-link project-movies" href="../../projects/g-tmce/"><span class="sidebar-icon"><img src="../../assets/img/projects/g-tmce.webp" width="192" height="192" alt=""></span> <span>G-TMCE</span></a></li>
+          <li><a class="sidebar-link project-folder" href="../../projects/lurviko/"><span class="sidebar-icon"><img src="../../assets/img/projects/lurviko.webp" width="192" height="157" alt=""></span> <span>Lurviko</span></a></li>
+          <li><a class="sidebar-link project-wifi" href="../../projects/g-hotspot/"><span class="sidebar-icon"><img src="../../assets/img/projects/g-hotspot.webp" width="192" height="192" alt=""></span> <span>G-Hotspot</span></a></li>
+        </ul>
+      </nav>
+      <main class="guide" id="content" tabindex="-1">
+        <article>
+          <header class="guide-hero project-music">
+            <div class="guide-heading">
+              <span class="project-icon"><img src="../../assets/img/projects/gharmonize.webp" width="192" height="192" alt=""></span>
+              <h1>Gharmonize</h1>
+            </div>
+            <p class="guide-intro" data-tr="Medyayı indirin, dönüştürün ve etiketleyin, ardından müzik arşivinizi tarayıcıda veya Android’de dinleyin. Bu rehber masaüstü paketlerini, Docker Compose’u ve Player kurulumunu kapsar.">Download, convert, and tag media, then stream your music library to a browser or Android. This guide covers packaged desktop builds, Docker Compose, and Player setup.</p>
+            <div class="guide-actions">
+              <a class="button guide-primary" href="#installation"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="Kurulum adımları">Installation steps</span></a>
+              <a class="button button-quiet" href="../../demo/gharmonize/"><span class="icon icon-play" aria-hidden="true"></span> <span data-tr="Player demosunu dene">Try the Player demo</span></a>
+              <a class="text-link" href="https://github.com/G-grbz/Gharmonize"><span class="icon icon-repo" aria-hidden="true"></span> GitHub</a>
+              <a class="text-link" href="https://github.com/G-grbz/Gharmonize/releases/latest"><span class="icon icon-download" aria-hidden="true"></span> <span data-tr="Sürümler">Releases</span></a>
+            </div>
+          </header>
+          <nav class="guide-toc" aria-label="On this page" data-tr-label="Bu sayfada">
+            <a href="#features"><span data-tr="Özellikler">Features</span></a>
+            <a href="#installation"><span data-tr="Masaüstü kurulumu">Desktop installation</span></a>
+            <a href="#docker"><span data-tr="Docker Compose kurulumu">Docker Compose deployment</span></a>
+            <a href="#configuration"><span data-tr="Ortam değişkenleri">Environment variables</span></a>
+            <a href="#player"><span data-tr="Player ve Android eşleştirme">Player and Android pairing</span></a>
+          </nav>
+          <section class="guide-section" id="features" aria-labelledby="features-title">
+            <h2 id="features-title" data-tr="Özellikler">Features</h2>
+            <ul>
+              <li><span data-tr="yt-dlp ile medya indirin, FFmpeg ile ses ve video dönüştürün, etiketleri ve kapak görsellerini düzenleyin.">Download media with yt-dlp, convert audio and video with FFmpeg, and edit metadata and cover art.</span></li>
+              <li><span data-tr="DRM’siz disklerden parça aktarın, zil sesi hazırlayın ve sisteminiz destekliyorsa donanım kodlamasını kullanın.">Rip DRM-free discs, prepare ringtones, and use hardware encoding when your system supports it.</span></li>
+              <li><span data-tr="Kendi arşivinizi Gharmonize Player ile tarayıcıda, Android telefonda veya Android TV’de dinleyin.">Play your own library using Gharmonize Player in a browser, on an Android phone, or on Android TV.</span></li>
+              <li><span data-tr="Parça bilgilerini bulmak ve medya kaynaklarını eşleştirmek için desteklenen müzik kataloglarını kullanın.">Use supported music catalogs to find track metadata and match media sources.</span></li>
+            </ul>
+            <a class="text-link" href="https://github.com/G-grbz/Gharmonize/blob/main/docs/FEATURES.md"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="Özellik belgeleri">Feature reference</span></a>
+          </section>
+          <section class="guide-section" id="installation" aria-labelledby="installation-title">
+            <h2 id="installation-title" data-tr="Masaüstü kurulumu">Desktop installation</h2>
+            <ol>
+              <li><span data-tr="GitHub Releases üzerinden Windows Setup EXE, Linux AppImage veya dağıtımınıza uygun DEB, RPM ya da Arch paketini indirin.">From GitHub Releases, download the Windows Setup EXE, Linux AppImage, or the DEB, RPM, or Arch package for your distribution.</span></li>
+              <li><span data-tr="Windows kurulumunu çalıştırın veya Linux paketini paket yöneticinizle kurun. AppImage için aşağıdaki komutları indirme klasöründe çalıştırın.">Run the Windows installer or install the Linux package with your package manager. For AppImage, run the commands below from the download folder.</span></li>
+              <li><span data-tr="Gharmonize’ı açın. Electron paketleri Node.js içerir. İlk açılışta Gharmonize’ın medya araçlarını hazırlamasını bekleyin.">Open Gharmonize. The packaged Electron app includes Node.js. On first launch, let Gharmonize finish preparing its media tools.</span></li>
+              <li><span data-tr="İlk parolayı ">Read the initial password from </span><code>INITIAL_ADMIN_PASSWORD.txt</code><span data-tr=" dosyasından alın ve giriş yaptıktan sonra Ayarlar’dan değiştirin. Masaüstü profili Linux’ta "> and change it in Settings after signing in. The desktop profile is under </span><code>~/.config/Gharmonize/</code><span data-tr=" altında, Windows’ta "> on Linux and </span><code>%APPDATA%</code><span data-tr=" içindeki Gharmonize klasöründedir."> on Windows, inside the Gharmonize folder.</span></li>
+            </ol>
+            <!-- PKG:gharmonize -->
+            <div class="pkg" data-pkg>
+              <p class="pkg-title" data-tr="Son sürümü kur">Install the latest release</p>
+              <div class="pkg-tabs" role="tablist" aria-label="Gharmonize packages" data-tr-label="Gharmonize paketleri">
+                <button type="button" class="pkg-tab" role="tab" id="pk-gharmonize-tab-arch" aria-controls="pk-gharmonize-arch" aria-selected="false" data-os="linux">Arch</button>
+                <button type="button" class="pkg-tab" role="tab" id="pk-gharmonize-tab-deb" aria-controls="pk-gharmonize-deb" aria-selected="false" data-os="linux">Debian / Ubuntu</button>
+                <button type="button" class="pkg-tab" role="tab" id="pk-gharmonize-tab-rpm" aria-controls="pk-gharmonize-rpm" aria-selected="false" data-os="linux">Fedora</button>
+                <button type="button" class="pkg-tab" role="tab" id="pk-gharmonize-tab-appimage" aria-controls="pk-gharmonize-appimage" aria-selected="false" data-os="linux">AppImage</button>
+                <button type="button" class="pkg-tab" role="tab" id="pk-gharmonize-tab-win-setup" aria-controls="pk-gharmonize-win-setup" aria-selected="false" data-os="windows">Windows</button>
+                <button type="button" class="pkg-tab" role="tab" id="pk-gharmonize-tab-win-portable" aria-controls="pk-gharmonize-win-portable" aria-selected="false" data-os="windows" data-tr="Windows Taşınabilir">Windows Portable</button>
+                <button type="button" class="pkg-tab" role="tab" id="pk-gharmonize-tab-android" aria-controls="pk-gharmonize-android" aria-selected="false" data-os="android">Android</button>
+              </div>
+              <div class="pkg-panel" role="tabpanel" id="pk-gharmonize-arch" aria-labelledby="pk-gharmonize-tab-arch">
+                <p class="pkg-hint"><b class="pkg-type">.pkg.tar.zst</b> <span data-tr="Arch Linux, Manjaro, EndeavourOS">Arch Linux, Manjaro, EndeavourOS</span></p>
+                <div class="command">
+                  <pre><code>curl -fsSL https://api.github.com/repos/G-grbz/Gharmonize/releases/latest \
+  | jq -r &#x27;.assets[] | select(.name | endswith(&quot;-x64.pkg.tar.zst&quot;)) | .browser_download_url&#x27; \
+  | xargs -r sudo pacman -U</code></pre>
+                  <button type="button" class="copy" aria-label="Copy the Gharmonize Arch command" data-tr-label="Gharmonize Arch komutunu kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+                </div>
+              </div>
+              <div class="pkg-panel" role="tabpanel" id="pk-gharmonize-deb" aria-labelledby="pk-gharmonize-tab-deb">
+                <p class="pkg-hint"><b class="pkg-type">.deb</b> <span data-tr="Debian, Ubuntu, Linux Mint">Debian, Ubuntu, Linux Mint</span></p>
+                <div class="command">
+                  <pre><code>curl -fsSL https://api.github.com/repos/G-grbz/Gharmonize/releases/latest \
+  | jq -r &#x27;.assets[] | select(.name | endswith(&quot;-amd64.deb&quot;)) | .browser_download_url&#x27; \
+  | xargs -r curl -fLo /tmp/gharmonize.deb \
+  &amp;&amp; sudo apt install /tmp/gharmonize.deb</code></pre>
+                  <button type="button" class="copy" aria-label="Copy the Gharmonize Debian / Ubuntu command" data-tr-label="Gharmonize Debian / Ubuntu komutunu kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+                </div>
+              </div>
+              <div class="pkg-panel" role="tabpanel" id="pk-gharmonize-rpm" aria-labelledby="pk-gharmonize-tab-rpm">
+                <p class="pkg-hint"><b class="pkg-type">.rpm</b> <span data-tr="Fedora ve diğer RPM tabanlı dağıtımlar">Fedora and other RPM-based distributions</span></p>
+                <div class="command">
+                  <pre><code>curl -fsSL https://api.github.com/repos/G-grbz/Gharmonize/releases/latest \
+  | jq -r &#x27;.assets[] | select(.name | endswith(&quot;.rpm&quot;)) | .browser_download_url&#x27; \
+  | xargs -r sudo dnf install -y</code></pre>
+                  <button type="button" class="copy" aria-label="Copy the Gharmonize Fedora command" data-tr-label="Gharmonize Fedora komutunu kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+                </div>
+              </div>
+              <div class="pkg-panel" role="tabpanel" id="pk-gharmonize-appimage" aria-labelledby="pk-gharmonize-tab-appimage">
+                <p class="pkg-hint"><b class="pkg-type">.AppImage</b> <span data-tr="Tüm x86-64 dağıtımlar. ~/Applications klasörüne kaydedilip açılır.">Any x86-64 distribution. Saved to ~/Applications and opened.</span></p>
+                <div class="command">
+                  <pre><code>mkdir -p ~/Applications \
+  &amp;&amp; curl -fsSL https://api.github.com/repos/G-grbz/Gharmonize/releases/latest \
+  | jq -r &#x27;.assets[] | select(.name | endswith(&quot;.AppImage&quot;)) | .browser_download_url&#x27; \
+  | xargs -r curl -fLo ~/Applications/Gharmonize.AppImage \
+  &amp;&amp; chmod +x ~/Applications/Gharmonize.AppImage \
+  &amp;&amp; ~/Applications/Gharmonize.AppImage</code></pre>
+                  <button type="button" class="copy" aria-label="Copy the Gharmonize AppImage command" data-tr-label="Gharmonize AppImage komutunu kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+                </div>
+              </div>
+              <div class="pkg-panel" role="tabpanel" id="pk-gharmonize-win-setup" aria-labelledby="pk-gharmonize-tab-win-setup">
+                <p class="pkg-hint"><b class="pkg-type">Setup .exe</b> <span data-tr="Kurulum sihirbazı. İndirip çalıştırın.">Installer. Download it and run it.</span></p>
+                <div class="pkg-download">
+                  <a class="button button-download" href="https://github.com/G-grbz/Gharmonize/releases/latest" data-asset-repo="Gharmonize" data-asset-match="Setup.*\.exe$" aria-label="Download Gharmonize (Windows)" data-tr-label="Gharmonize (Windows) indir"><span class="icon icon-download" aria-hidden="true"></span> <span data-tr="İndir">Download</span></a>
+                  <span class="pkg-file" data-asset-info></span>
+                </div>
+              </div>
+              <div class="pkg-panel" role="tabpanel" id="pk-gharmonize-win-portable" aria-labelledby="pk-gharmonize-tab-win-portable">
+                <p class="pkg-hint"><b class="pkg-type">Portable .exe</b> <span data-tr="Kurulum gerektirmez. İndirip çalıştırın.">No installation needed. Download it and run it.</span></p>
+                <div class="pkg-download">
+                  <a class="button button-download" href="https://github.com/G-grbz/Gharmonize/releases/latest" data-asset-repo="Gharmonize" data-asset-match="Portable\.v.*\.exe$" aria-label="Download Gharmonize (Windows Portable)" data-tr-label="Gharmonize (Windows Taşınabilir) indir"><span class="icon icon-download" aria-hidden="true"></span> <span data-tr="İndir">Download</span></a>
+                  <span class="pkg-file" data-asset-info></span>
+                </div>
+              </div>
+              <div class="pkg-panel" role="tabpanel" id="pk-gharmonize-android" aria-labelledby="pk-gharmonize-tab-android">
+                <p class="pkg-hint"><b class="pkg-type">.apk</b> <span data-tr="Gharmonize Player istemcisi. Telefonda indirip açın; Android bu kaynaktan kuruluma izin vermenizi isteyebilir.">Gharmonize Player client. Download it on the phone and open it; Android may ask you to allow installs from this source.</span></p>
+                <div class="pkg-download">
+                  <a class="button button-download" href="https://github.com/G-grbz/Gharmonize/releases/latest" data-asset-repo="Gharmonize" data-asset-match="\.apk$" aria-label="Download Gharmonize (Android)" data-tr-label="Gharmonize (Android) indir"><span class="icon icon-download" aria-hidden="true"></span> <span data-tr="İndir">Download</span></a>
+                  <span class="pkg-file" data-asset-info></span>
+                </div>
+              </div>
+              <p class="pkg-note"><span data-tr="Linux komutları için">Linux commands need</span> <code>curl</code> <span data-tr="ve">and</span> <code>jq</code><span data-tr=" gerekir. Komutlar her zaman GitHub’daki son sürümü indirir.">. They always download the latest release from GitHub.</span></p>
+            </div>
+            <!-- /PKG:gharmonize -->
+            <div class="guide-example">
+              <p class="example-title" data-tr="AppImage çalıştırma komutu">AppImage launch</p>
+              <div class="command">
+                <pre><code>chmod +x ./Gharmonize-*.AppImage
+./Gharmonize-*.AppImage</code></pre>
+                <button type="button" class="copy" aria-label="Copy AppImage launch" data-tr-label="AppImage çalıştırma komutunu kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+              </div>
+            </div>
+            <h3 data-tr="Linux’ta kaynak koddan çalıştırma">Run from source on Linux</h3>
+            <p><span data-tr="Node.js 22.12 veya üzerini kurun. Bağımlılıkları kurulmuş bir kopyada yalnızca tarayıcı sunucusunu 5174 portunda başlatmak için ">Install Node.js 22.12 or newer. Use </span><code>npm run server</code><span data-tr=" çalıştırın."> in an installed checkout for the browser-only server on port 5174.</span></p>
+            <div class="guide-example">
+              <p class="example-title" data-tr="Kaynak kurulum komutları">Source installation commands</p>
+              <div class="command">
+                <pre><code>git clone https://github.com/G-grbz/Gharmonize
+cd Gharmonize
+BUILD_ELECTRON=1 npm install
+npm start</code></pre>
+                <button type="button" class="copy" aria-label="Copy source installation commands" data-tr-label="Kaynak kurulum komutlarını kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+              </div>
+            </div>
+            <a class="text-link" href="https://github.com/G-grbz/Gharmonize/blob/main/docs/INSTALLATION.md"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="Masaüstü paketleri ve Windows kaynak kurulumu">Desktop packages and Windows source setup</span></a>
+          </section>
+          <section class="guide-section" id="docker" aria-labelledby="docker-title">
+            <h2 id="docker-title" data-tr="Docker Compose kurulumu">Docker Compose deployment</h2>
+            <p><span data-tr="Linux sunucuda Docker Engine ve Compose eklentisini kullanın. Hazır yapılandırma resmî imajı ">Use Docker Engine with the Compose plugin on a Linux host. The supplied stack pulls the official image from </span><code>ghcr.io/g-grbz/gharmonize</code><span data-tr=" üzerinden çeker ve web arayüzünü sunar."> and serves the web interface.</span></p>
+            <h3 data-tr="Yeni kurulum için klasörleri hazırlama">Prepare a fresh installation</h3>
+            <div class="guide-example">
+              <p class="example-title" data-tr="Docker klasör hazırlama komutları">Docker directory setup commands</p>
+              <div class="command">
+                <pre><code>git clone https://github.com/G-grbz/Gharmonize
+cd Gharmonize
+sudo install -d -m 700 -o &quot;$(id -u)&quot; -g &quot;$(id -g)&quot; /opt/gharmonize
+mkdir -p /opt/gharmonize/{uploads,outputs,temp,cache,cookies,local-inputs}
+touch /opt/gharmonize/.env
+chmod 600 /opt/gharmonize/.env</code></pre>
+                <button type="button" class="copy" aria-label="Copy Docker directory setup commands" data-tr-label="Docker klasör hazırlama komutlarını kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+              </div>
+            </div>
+            <p><span data-tr="Klonladığınız dizinde Compose değerlerini ">In the cloned checkout, save Compose values in </span><code>.env</code><span data-tr=" dosyasına kaydedin. Örnek kullanıcı ve grup numaralarını ">. Replace the example user and group IDs with the output of </span><code>id -u</code><span data-tr=" ve "> and </span><code>id -g</code><span data-tr=" çıktılarıyla değiştirin. Gharmonize kendi isteğe bağlı ayarlarını ">. Gharmonize reads its own optional settings from </span><code>/opt/gharmonize/.env</code><span data-tr=" dosyasından okur.">.</span></p>
+            <div class="guide-example">
+              <p class="example-title" data-tr="Compose ortam örneği">Compose environment example</p>
+              <div class="command">
+                <pre><code>PUID=1000
+PGID=1000
+PORT=5174
+MUSIC_DIR=/opt/gharmonize/local-inputs</code></pre>
+                <button type="button" class="copy" aria-label="Copy Compose environment example" data-tr-label="Compose ortam örneğini kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+              </div>
+            </div>
+            <h3 data-tr="Servisi başlatma ve kontrol etme">Start and check the service</h3>
+            <div class="guide-example">
+              <p class="example-title" data-tr="Docker Compose başlatma komutları">Docker Compose start commands</p>
+              <div class="command">
+                <pre><code>docker compose config --quiet
+docker compose pull
+docker compose up -d
+docker compose ps</code></pre>
+                <button type="button" class="copy" aria-label="Copy Docker Compose start commands" data-tr-label="Docker Compose başlatma komutlarını kopyala" hidden><span class="icon icon-copy" aria-hidden="true"></span><span data-tr="Kopyala">Copy</span></button>
+              </div>
+            </div>
+            <ol>
+              <li><span data-tr="Sunucuda ">Open </span><code>http://localhost:5174</code><span data-tr=" adresini açın. YTLive için aynı sunucuda "> on the host. To use YTLive, open </span><code>/ytlive.html</code><span data-tr=" yoluna gidin."> on the same server.</span></li>
+              <li><span data-tr="İlk parolayı ">Get the initial password from </span><code>/opt/gharmonize/cache/INITIAL_ADMIN_PASSWORD.txt</code><span data-tr=" dosyasından alın, Ayarlar’dan değiştirin ve tek kullanımlık parola dosyasını kaldırın.">, change it in Settings, and then remove the one-time credential file.</span></li>
+              <li><span data-tr="Güncellemelerde önbellek birimini ve içindeki şifreleme anahtarını koruyun. Uzaktan kullanımda HTTPS kullanın ve yayımlanan porta erişimi sınırlandırın.">Preserve the cache volume and its encryption key across upgrades. For a remote deployment, use HTTPS and protect access to the published port.</span></li>
+            </ol>
+            <p data-tr="Sürümü sabitlemek için GHCR’deki bir sürüm etiketini kullanın. NVIDIA/NVENC veya kaynak koddan oluşturulan imaj için Docker rehberindeki ilgili adımları izleyin.">For a pinned deployment, use a version tag from GHCR. For NVIDIA/NVENC or a source-built image, use the corresponding instructions in the Docker guide.</p>
+            <a class="text-link" href="https://github.com/G-grbz/Gharmonize/blob/main/docs/DOCKER.md"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="Docker seçenekleri, güncelleme ve NVIDIA">Docker options, upgrades and NVIDIA</span></a>
+          </section>
+          <section class="guide-section" id="configuration" aria-labelledby="configuration-title">
+            <h2 id="configuration-title" data-tr="Ortam değişkenleri">Environment variables</h2>
+            <p><span data-tr="Tüm değişkenler isteğe bağlıdır; boş bırakılanlarda varsayılan değer kullanılır. Değerleri ">All variables are optional; defaults are used when a value is left empty. Set them in </span><code>.env</code><span data-tr=" dosyasında veya Ayarlar panelinde değiştirin. Docker’da Compose ortam ayarlarını kullanın; masaüstü uygulamasında Linux’ta "> or from the Settings panel. In Docker use the Compose environment; in the desktop app edit </span><code>~/.config/Gharmonize/.env</code><span data-tr=", Windows’ta "> on Linux or </span><code>%APPDATA%/Gharmonize/.env</code><span data-tr=" dosyasını düzenleyin. Klasör ayarlarından sonra uygulamayı yeniden başlatın."> on Windows. Restart after changing directory settings.</span></p>
+            <div class="env-filter" hidden>
+              <label class="visually-hidden" for="env-search" data-tr="Ortam değişkeni ara">Search environment variables</label>
+              <input id="env-search" type="search" autocomplete="off" spellcheck="false" placeholder="Search variables, e.g. SPOTIFY or port" data-tr-placeholder="Değişken ara, örn. SPOTIFY veya port">
+              <span class="env-count" aria-live="polite"></span>
+            </div>
+            <nav class="env-index" aria-label="Variable groups" data-tr-label="Değişken grupları">
+              <a href="#env-docker"><span data-tr="Docker ve sunucu">Docker and server</span><span class="env-index-count">8</span></a>
+              <a href="#env-storage"><span data-tr="Veri dizinleri">Data directories</span><span class="env-index-count">5</span></a>
+              <a href="#env-interface"><span data-tr="Arayüz ve genel">Interface and general</span><span class="env-index-count">7</span></a>
+              <a href="#env-desktop"><span data-tr="Masaüstü uygulaması">Desktop app</span><span class="env-index-count">3</span></a>
+              <a href="#env-preview"><span data-tr="Önizleme ve liste alma">Preview and fetch limits</span><span class="env-index-count">8</span></a>
+              <a href="#env-tools"><span data-tr="Araçlar ve yt-dlp">Tools and yt-dlp</span><span class="env-index-count">8</span></a>
+              <a href="#env-matching"><span data-tr="Spotify, Deezer ve eşleştirme">Spotify, Deezer and matching</span><span class="env-index-count">12</span></a>
+              <a href="#env-titles"><span data-tr="Başlık temizleme">Title cleaning</span><span class="env-index-count">4</span></a>
+              <a href="#env-youtube"><span data-tr="YouTube çerezleri, dil ve bölge">YouTube cookies, language and region</span><span class="env-index-count">15</span></a>
+              <a href="#env-tagging"><span data-tr="Etiketleme">Tagging</span><span class="env-index-count">2</span></a>
+              <a href="#env-security"><span data-tr="Erişim ve güvenlik">Access and security</span><span class="env-index-count">12</span></a>
+              <a href="#env-player"><span data-tr="Gharmonize Player">Gharmonize Player</span><span class="env-index-count">8</span></a>
+            </nav>
+            <div class="env-group" id="env-docker">
+              <h3 data-tr="Docker ve sunucu">Docker and server</h3>
+              <div class="guide-table env-table"><table>
+                <thead><tr><th scope="col" data-tr="Değişken">Variable</th><th scope="col" data-tr="Varsayılan">Default</th><th scope="col" data-tr="İşlevi">What it does</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row"><code>PUID</code><br><code>PGID</code></th><td class="env-default"><code>1000</code></td><td><span data-tr="Konteyner kullanıcısını ve grubunu belirler. Yazılabilir sunucu klasörlerinin sahibiyle eşleştirin.">Select the container user and group. Match the owner of the writable host directories.</span></td></tr>
+                  <tr><th scope="row"><code>RUN_<wbr>MEDIA_<wbr>GID</code></th><td class="env-default"><code>65534</code></td><td><span data-tr="Bağlanan medyayı (örneğin ">Extra group added to the container user so it can read mounted media (for example removable drives under </span><code>/run/media</code><span data-tr=" altındaki çıkarılabilir diskleri) okuyabilmesi için konteyner kullanıcısına eklenen ek grup.">).</span></td></tr>
+                  <tr><th scope="row"><code>PORT</code></th><td class="env-default"><code>5174</code></td><td><span data-tr="Servis portunu ve hazır Compose dosyasının yayımladığı portu ayarlar. Varsayılan 5174’tür.">Sets both the service port and the port the stock Compose file publishes. The default is 5174.</span></td></tr>
+                  <tr><th scope="row"><code>MUSIC_<wbr>DIR</code></th><td class="env-default"><code>/opt/gharmonize/local-inputs</code></td><td><span data-tr="Sunucudaki müzik klasörünü ">Mounts a host music directory at </span><code>/music</code><span data-tr=" altında bağlar. Yerinde etiket düzenleme için bu klasörde yazma izni gerekir.">. In-place retagging requires write permission on that directory.</span></td></tr>
+                  <tr><th scope="row"><code>RETAG_<wbr>ROOTS</code></th><td class="env-default"><code>/music</code></td><td><span data-tr="Yerinde etiket düzenleme için sunulan klasörleri sınırlar. Ayarlanmazsa ">Restricts the directories offered for in-place retagging. Without it, </span><code>/music</code><span data-tr=", ">, </span><code>LOCAL_INPUT_DIR</code><span data-tr=" ve gerçek çıktı klasörü sunulur."> and the actual outputs directory are offered.</span></td></tr>
+                  <tr><th scope="row"><code>NODE_<wbr>ENV</code></th><td class="env-default"><code>production</code></td><td><span data-tr="Hazır Compose dosyasının ayarladığı çalışma modu. Kurulumlarda ">Runtime mode set by the stock Compose file. Keep </span><code>production</code><span data-tr=" olarak bırakın."> for deployments.</span></td></tr>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>WEB_<wbr>BINARIES_<wbr>IN_<wbr>DOCKER</code></th><td class="env-default"><code>1</code></td><td><span data-tr="Docker imajının FFmpeg, yt-dlp ve diğer araçları otomatik indirip yönetmesini sağlar.">Lets the Docker image download and manage FFmpeg, yt-dlp and the other tools automatically.</span></td></tr>
+                  <tr><th scope="row"><code>NVIDIA_<wbr>VISIBLE_<wbr>DEVICES</code><br><code>NVIDIA_<wbr>DRIVER_<wbr>CAPABILITIES</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="Hazır Compose dosyasında yorum satırıdır. NVENC donanım kodlaması için NVIDIA çalışma zamanıyla birlikte ">Commented out in the stock Compose file. Set them to </span><code>all</code><span data-tr=" ve "> and </span><code>compute,video,utility</code><span data-tr=" olarak ayarlayın."> with the NVIDIA runtime to use NVENC hardware encoding.</span></td></tr>
+                </tbody>
+              </table></div>
+            </div>
+            <div class="env-group" id="env-storage">
+              <h3 data-tr="Veri dizinleri">Data directories</h3>
+              <div class="guide-table env-table"><table>
+                <thead><tr><th scope="col" data-tr="Değişken">Variable</th><th scope="col" data-tr="Varsayılan">Default</th><th scope="col" data-tr="İşlevi">What it does</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row"><code>DATA_<wbr>DIR</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="Uygulama verilerinin kök klasörü. Boş bırakılırsa çalışma dizini (Node/Docker) veya profil klasörü (masaüstü paketi) kullanılır. Hazır Compose yapılandırması konteyner içinde ">Root directory for application storage. Empty uses the working directory (Node/Docker) or the profile directory (packaged desktop app). The stock Compose stack uses </span><code>/usr/src/app</code><span data-tr=" kullanır; sunucudaki indirme konumunu taşımak için outputs bağlantısının kaynak dizinini değiştirin. Değiştirdikten sonra uygulamayı yeniden başlatın."> inside the container; to move host downloads, change the source of the outputs bind mount. Restart after changing it.</span></td></tr>
+                  <tr><th scope="row"><code>OUTPUTS_<wbr>DISPLAY_<wbr>DIR</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="Arayüzde gösterilen yolu değiştirir. Dosyaların yazıldığı konumu outputs bağlantısı belirler.">Changes the path shown in the interface. The outputs bind mount determines where files are written.</span></td></tr>
+                  <tr><th scope="row"><code>LOCAL_<wbr>INPUT_<wbr>DIR</code></th><td class="env-default"><code>local-inputs</code></td><td><span data-tr="Sunucudaki yerel dosyaları gezmek ve dönüştürmek için ">Directory under </span><code>DATA_DIR</code><span data-tr=" altındaki klasör. Yönetici oturumu gerektirir."> for browsing and converting server-local files. Requires an administrator session.</span></td></tr>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>WEB_<wbr>CACHE_<wbr>DIR</code><br><code>CACHE_<wbr>DIR</code><br><code>JOBS_<wbr>STATE_<wbr>DIR</code><br><code>YTLIVE_<wbr>DOWNLOAD_<wbr>LISTS_<wbr>DIR</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="Önbellek, kayıtlı iş durumu ve YTLive indirme listeleri için isteğe bağlı konumlar. Varsayılan olarak ">Optional overrides for the cache, saved job state and YTLive download lists. By default they live under </span><code>DATA_DIR/cache</code><span data-tr=" altında tutulur.">.</span></td></tr>
+                  <tr><th scope="row"><code>ENV_<wbr>USER_<wbr>PATH</code><br><code>ENV_<wbr>PATH</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="Hangi ">Selects which </span><code>.env</code><span data-tr=" dosyasının yükleneceğini ve Ayarlar’ın değişiklikleri nereye kaydedeceğini belirler. Boşsa çalışma dizinindeki "> file is loaded and where Settings saves changes. Empty uses the </span><code>.env</code><span data-tr=" kullanılır."> in the working directory.</span></td></tr>
+                </tbody>
+              </table></div>
+            </div>
+            <div class="env-group" id="env-interface">
+              <h3 data-tr="Arayüz ve genel">Interface and general</h3>
+              <div class="guide-table env-table"><table>
+                <thead><tr><th scope="col" data-tr="Değişken">Variable</th><th scope="col" data-tr="Varsayılan">Default</th><th scope="col" data-tr="İşlevi">What it does</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row"><code>FRONTEND_<wbr>UI</code></th><td class="env-default"><code>classic</code></td><td><span data-tr="">Interface served at </span><code>/</code><span data-tr=" adresinde açılacak arayüz: ">: </span><code>classic</code><span data-tr=", ">, </span><code>ytlive</code><span data-tr=" veya "> or </span><code>player</code><span data-tr=". Doğrudan adresler her durumda kullanılabilir.">. Direct routes stay available.</span></td></tr>
+                  <tr><th scope="row"><code>UPLOAD_<wbr>MAX_<wbr>BYTES</code></th><td class="env-default"><code>2500mb</code></td><td><span data-tr="Yükleme boyutunu sınırlar. Örneğin ">Limits upload size. For example, </span><code>UPLOAD_MAX_BYTES=100mb</code><span data-tr=".">.</span></td></tr>
+                  <tr><th scope="row"><code>YOUTUBE_<wbr>QUICK_<wbr>ADD_<wbr>LIMIT</code></th><td class="env-default"><code>50</code></td><td><span data-tr="YTLive oynatma listesindeki + düğmesinin kuyruğa ekleyeceği en fazla öğe sayısı (1–100).">Maximum playlist entries queued by the YTLive playlist + action (1–100).</span></td></tr>
+                  <tr><th scope="row"><code>YOUTUBE_<wbr>DISCOVER_<wbr>DEBUG</code></th><td class="env-default"><code>0</code></td><td><span data-tr="YTLive keşif işlemleri için ayrıntılı sunucu günlüklerini açar.">Enables verbose server logs for YTLive discovery.</span></td></tr>
+                  <tr><th scope="row"><code>YTLIVE_<wbr>MUSIC_<wbr>TITLE</code><br><code>YTLIVE_<wbr>MUSIC_<wbr>SUBTITLE</code></th><td class="env-default"><code>Gharmonize Music</code> / <code>Youtube Live</code></td><td><span data-tr="YTLive arayüzünde gösterilen başlık ve alt başlık.">Title and subtitle shown in the YTLive interface.</span></td></tr>
+                  <tr><th scope="row"><code>TRACK_<wbr>EXTRACTOR_<wbr>SHELL_<wbr>INTEGRATION</code></th><td class="env-default"><code>1</code></td><td><span data-tr="Windows/Linux sağ tık menüsünde Gharmonize Track Extractor kısayolunu gösterir. 1 = açık, 0 = kapalı.">Shows the Gharmonize Track Extractor shortcut in the Windows/Linux context menu. 1 = on, 0 = off.</span></td></tr>
+                  <tr><th scope="row"><code>HOMEPAGE_<wbr>WIDGET_<wbr>KEY</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="Homepage panosu bileşeni için anahtar. Ayarlar’da oluşturun ve ">Key for the Homepage dashboard widget. Generate it in Settings and send it in the </span><code>X-Widget-Key</code><span data-tr=" başlığıyla gönderin."> header.</span></td></tr>
+                </tbody>
+              </table></div>
+            </div>
+            <div class="env-group" id="env-desktop">
+              <h3 data-tr="Masaüstü uygulaması">Desktop app</h3>
+              <div class="guide-table env-table"><table>
+                <thead><tr><th scope="col" data-tr="Değişken">Variable</th><th scope="col" data-tr="Varsayılan">Default</th><th scope="col" data-tr="İşlevi">What it does</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>DISABLE_<wbr>HARDWARE_<wbr>ACCELERATION</code></th><td class="env-default"><code>0</code></td><td><span data-tr="Bir ekran kartı sürücüsü görüntü sorunu çıkarırsa masaüstü uygulamasında GPU hızlandırmayı kapatmak için ">Set to </span><code>1</code><span data-tr=" yapın. İşlemci kullanımını artırır."> to disable GPU acceleration in the desktop app if a graphics driver has rendering problems. Increases CPU usage.</span></td></tr>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>OZONE_<wbr>PLATFORM</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="Linux görüntü altyapısını seçer: ">Selects the Linux display backend: </span><code>x11</code><span data-tr=" veya "> or </span><code>wayland</code><span data-tr=". Boşsa otomatik seçilir.">. Empty chooses automatically.</span></td></tr>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>BINARY_<wbr>TMP_<wbr>DIR</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="Araçların geçici dosyaları için çalıştırma izni olan üst klasör. Varsayılanı yönetilen araç önbelleğindeki ">Executable-capable parent directory for tool temporary files. Defaults to </span><code>tmp/</code><span data-tr=" klasörüdür; paylaşılan veya herkesin yazabildiği bir klasör kullanmayın."> inside the managed binary cache; do not use a shared or world-writable directory.</span></td></tr>
+                </tbody>
+              </table></div>
+            </div>
+            <div class="env-group" id="env-preview">
+              <h3 data-tr="Önizleme ve liste alma">Preview and fetch limits</h3>
+              <div class="guide-table env-table"><table>
+                <thead><tr><th scope="col" data-tr="Değişken">Variable</th><th scope="col" data-tr="Varsayılan">Default</th><th scope="col" data-tr="İşlevi">What it does</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row"><code>PREVIEW_<wbr>MAX_<wbr>ENTRIES</code></th><td class="env-default"><code>1000</code></td><td><span data-tr="Automix veya oynatma listesi önizlemesinde gösterilecek en fazla öğe sayısı.">Maximum entries shown in an Automix or playlist preview.</span></td></tr>
+                  <tr><th scope="row"><code>AUTOMIX_<wbr>ALL_<wbr>TIMEOUT_<wbr>MS</code></th><td class="env-default"><code>60000</code></td><td><span data-tr="Automix listesinin tek seferde alınması için zaman aşımı. Aşılırsa sayfalı moda geçilir.">Timeout for fetching a whole Automix list at once. Falls back to paged mode when exceeded.</span></td></tr>
+                  <tr><th scope="row"><code>AUTOMIX_<wbr>PAGE_<wbr>TIMEOUT_<wbr>MS</code></th><td class="env-default"><code>60000</code></td><td><span data-tr="Her sayfalı Automix isteği için zaman aşımı.">Timeout for each paged Automix request.</span></td></tr>
+                  <tr><th scope="row"><code>PLAYLIST_<wbr>ALL_<wbr>TIMEOUT_<wbr>MS</code></th><td class="env-default"><code>35000</code></td><td><span data-tr="Oynatma listesinin tamamının ">Timeout for fetching a whole playlist with </span><code>--flat-playlist</code><span data-tr=" ile alınması için zaman aşımı.">.</span></td></tr>
+                  <tr><th scope="row"><code>PLAYLIST_<wbr>PAGE_<wbr>TIMEOUT_<wbr>MS</code></th><td class="env-default"><code>25000</code></td><td><span data-tr="Her sayfalı oynatma listesi isteği için zaman aşımı.">Timeout for each paged playlist request.</span></td></tr>
+                  <tr><th scope="row"><code>PLAYLIST_<wbr>META_<wbr>TIMEOUT_<wbr>MS</code></th><td class="env-default"><code>15000</code></td><td><span data-tr="Başlık ve öğe sayısı gibi oynatma listesi bilgilerinin alınması için zaman aşımı.">Timeout for fetching playlist metadata such as the title and item count.</span></td></tr>
+                  <tr><th scope="row"><code>PLAYLIST_<wbr>META_<wbr>FALLBACK_<wbr>TIMEOUT_<wbr>MS</code></th><td class="env-default"><code>15000</code></td><td><span data-tr="Yalnızca ilk öğeyi kullanan yedek bilgi alma denemesi için zaman aşımı.">Timeout for the fallback metadata attempt that uses only the first item.</span></td></tr>
+                  <tr><th scope="row"><code>PREVIEW_<wbr>CACHE_<wbr>TTL_<wbr>MS</code></th><td class="env-default"><code>1800000</code></td><td><span data-tr="Önizleme sonuçlarının bellekte tutulma süresi (varsayılan 30 dakika).">How long preview results stay in memory (30 minutes by default).</span></td></tr>
+                </tbody>
+              </table></div>
+            </div>
+            <div class="env-group" id="env-tools">
+              <h3 data-tr="Araçlar ve yt-dlp">Tools and yt-dlp</h3>
+              <div class="guide-table env-table"><table>
+                <thead><tr><th scope="col" data-tr="Değişken">Variable</th><th scope="col" data-tr="Varsayılan">Default</th><th scope="col" data-tr="İşlevi">What it does</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row"><code>YTDLP_<wbr>BIN</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="yt-dlp programının yolu. Yönetilen kopyayı kullanmak için boş bırakın.">Path to the yt-dlp executable. Leave empty to use the managed copy.</span></td></tr>
+                  <tr><th scope="row"><code>FFMPEG_<wbr>BIN</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="ffmpeg programının yolu. Yönetilen kopyayı kullanmak için boş bırakın.">Path to the ffmpeg executable. Leave empty to use the managed copy.</span></td></tr>
+                  <tr><th scope="row"><code>FFPROBE_<wbr>BIN</code><br><code>MKVMERGE_<wbr>BIN</code><br><code>MKVPROPEDIT_<wbr>BIN</code><br><code>DENO_<wbr>BIN</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="Diğer yardımcı araçların yolları. Yönetilen kopyaları kullanmak için boş bırakın.">Paths to the other helper tools. Leave empty to use the managed copies.</span></td></tr>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>FFMPEG_<wbr>CHANNEL</code></th><td class="env-default"><code>stable</code></td><td><span data-tr="FFmpeg güncelleme kanalı. ">FFmpeg update channel. </span><code>stable</code><span data-tr=" en yeni uyumlu sürümü seçer; "> picks the newest compatible release build; </span><code>master</code><span data-tr=" en son geliştirme sürümünü kullanır."> opts in to the latest development snapshot.</span></td></tr>
+                  <tr><th scope="row"><code>YTDLP_<wbr>EXTRA</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="Ses indirmelerinde yt-dlp’ye eklenecek ek argümanlar, boşlukla ayrılır.">Extra yt-dlp arguments for audio downloads, separated by spaces.</span></td></tr>
+                  <tr><th scope="row"><code>YTDLP_<wbr>ARGS_<wbr>EXTRA</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="">Alternative name used when </span><code>YTDLP_EXTRA</code><span data-tr=" ayarlanmadığında kullanılan alternatif ad."> is not set.</span></td></tr>
+                  <tr><th scope="row"><code>YTDLP_<wbr>AUDIO_<wbr>LIMIT_<wbr>RATE</code></th><td class="env-default"><code>999999500K</code></td><td><span data-tr="Tek video ses indirmeleri için hız sınırı, ">Download speed limit for single-video audio downloads, passed as </span><code>--limit-rate</code><span data-tr=" olarak iletilir. Varsayılan değer pratikte sınırsızdır.">. The default is effectively unlimited.</span></td></tr>
+                  <tr><th scope="row"><code>YTDLP_<wbr>UA</code></th><td class="env-default"><span data-tr="Chrome 127 UA">Chrome 127 UA</span></td><td><span data-tr="yt-dlp’nin YouTube’a gönderdiği User-Agent değeri.">User-Agent string yt-dlp sends to YouTube.</span></td></tr>
+                </tbody>
+              </table></div>
+            </div>
+            <div class="env-group" id="env-matching">
+              <h3 data-tr="Spotify, Deezer ve eşleştirme">Spotify, Deezer and matching</h3>
+              <div class="guide-table env-table"><table>
+                <thead><tr><th scope="col" data-tr="Değişken">Variable</th><th scope="col" data-tr="Varsayılan">Default</th><th scope="col" data-tr="İşlevi">What it does</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row"><code>SPOTIFY_<wbr>CLIENT_<wbr>ID</code><br><code>SPOTIFY_<wbr>CLIENT_<wbr>SECRET</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="Parça bilgisi sorguları için isteğe bağlı Spotify Web API bilgileri. Gizli anahtarı korumalı uygulama yapılandırmasında saklayın.">Optional Spotify Web API credentials for metadata lookup. Keep the secret in the protected application configuration.</span></td></tr>
+                  <tr><th scope="row"><code>SPOTIFY_<wbr>MARKET</code></th><td class="env-default"><code>US</code></td><td><span data-tr="Spotify isteklerinde kullanılan varsayılan ülke kodu.">Default country code for Spotify requests.</span></td></tr>
+                  <tr><th scope="row"><code>SPOTIFY_<wbr>FALLBACK_<wbr>MARKETS</code></th><td class="env-default"><code>GB,DE,FR</code></td><td><span data-tr="Parça ">Comma-separated markets tried in order when a track is unavailable in </span><code>SPOTIFY_MARKET</code><span data-tr=" içinde yoksa sırayla denenecek ülkeler, virgülle ayrılır.">.</span></td></tr>
+                  <tr><th scope="row"><code>SPOTIFY_<wbr>DEBUG_<wbr>MARKET</code></th><td class="env-default"><code>0</code></td><td><span data-tr="Ülke seçimi ve yedek denemeleri ayrıntılı olarak günlüğe yazar.">Logs market selection and fallbacks in detail.</span></td></tr>
+                  <tr><th scope="row"><code>DEEZER_<wbr>ARL</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="Kişiselleştirilmiş Deezer akıllı listeleri için ">Deezer </span><code>arl</code><span data-tr=" oturum çerezi. Şifreli saklanır; parola gibi koruyun."> session cookie for personalized smart tracklists. Stored encrypted; treat it like a password.</span></td></tr>
+                  <tr><th scope="row"><code>PREFER_<wbr>SPOTIFY_<wbr>TAGS</code></th><td class="env-default"><code>1</code></td><td><span data-tr="Etiket yazarken YouTube yerine Spotify bilgilerini tercih eder.">Prefers Spotify metadata over YouTube when writing tags.</span></td></tr>
+                  <tr><th scope="row"><code>ENRICH_<wbr>SPOTIFY_<wbr>FOR_<wbr>YT</code></th><td class="env-default"><code>1</code></td><td><span data-tr="YouTube dönüştürmelerini tür, plak şirketi, yıl ve ISRC gibi Spotify bilgileriyle zenginleştirir.">Enriches YouTube conversions with Spotify data such as genre, label, year and ISRC.</span></td></tr>
+                  <tr><th scope="row"><code>YT_<wbr>SEARCH_<wbr>RESULTS</code></th><td class="env-default"><code>3</code></td><td><span data-tr="Her parça eşleştirmesinde incelenen YouTube sonucu sayısı. 2 daha hızlı, 3 daha güvenlidir.">Number of YouTube results checked per track match. 2 is faster, 3 is safer.</span></td></tr>
+                  <tr><th scope="row"><code>YT_<wbr>SEARCH_<wbr>TIMEOUT_<wbr>MS</code></th><td class="env-default"><code>25000</code></td><td><span data-tr="Her eşleştirme araması için zaman aşımı.">Timeout for each matching search.</span></td></tr>
+                  <tr><th scope="row"><code>YT_<wbr>SEARCH_<wbr>STAGGER_<wbr>MS</code></th><td class="env-default"><code>180</code></td><td><span data-tr="Kısıtlamaya takılmamak için paralel aramalar arasındaki bekleme. 0 kapatır.">Delay between parallel searches to avoid throttling. 0 disables it.</span></td></tr>
+                  <tr><th scope="row"><code>YOUTUBE_<wbr>HOURLY_<wbr>BUDGET</code></th><td class="env-default"><code>0</code></td><td><span data-tr="YouTube istek koruması: saatte alınacak en fazla video sayısı (30–2000, önerilen 250). 0 kapalı tutar.">YouTube request guard: maximum videos fetched per hour (30–2000, 250 recommended). 0 keeps it off.</span></td></tr>
+                  <tr><th scope="row"><code>MAPPED_<wbr>MUSIC_<wbr>YT_<wbr>DURATION_<wbr>*</code><br><code>MAPPED_<wbr>MUSIC_<wbr>YT_<wbr>TIGHT_<wbr>DURATION_<wbr>*</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="Katalog parçalarını YouTube ile eşleştirirken kullanılan süre toleranslarını değiştirir (varsayılan 45 sn veya %22, zayıf eşleşmelerde 12 sn veya %6).">Override the duration tolerances used when matching catalog tracks to YouTube (default 45 s or 22%, 12 s or 6% for weak matches).</span></td></tr>
+                </tbody>
+              </table></div>
+            </div>
+            <div class="env-group" id="env-titles">
+              <h3 data-tr="Başlık temizleme">Title cleaning</h3>
+              <div class="guide-table env-table"><table>
+                <thead><tr><th scope="col" data-tr="Değişken">Variable</th><th scope="col" data-tr="Varsayılan">Default</th><th scope="col" data-tr="İşlevi">What it does</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row"><code>TITLE_<wbr>CLEAN_<wbr>PIPE</code></th><td class="env-default"><code>1</code></td><td><span data-tr="Başlıkta ">When a title contains </span><code>|</code><span data-tr=" varsa yalnızca sonuncusundan sonraki kısmı tutar.">, keeps only the part after the last one.</span></td></tr>
+                  <tr><th scope="row"><code>CLEAN_<wbr>SUFFIXES</code></th><td class="env-default"><code>topic,official</code></td><td><span data-tr="Başlıkların sonundan silinecek ekler, virgülle ayrılır.">Comma-separated suffixes removed from the end of titles.</span></td></tr>
+                  <tr><th scope="row"><code>CLEAN_<wbr>PHRASES</code></th><td class="env-default"><code>official channel,Official Video</code></td><td><span data-tr="Başlığın neresinde geçerse geçsin silinecek ifadeler.">Phrases removed wherever they appear in a title.</span></td></tr>
+                  <tr><th scope="row"><code>CLEAN_<wbr>PARENS</code></th><td class="env-default"><code>official,topic</code></td><td><span data-tr="Parantez içinde geçtiğinde o parantezin tamamını silen kelimeler.">Words that remove the whole parenthesized part they appear in.</span></td></tr>
+                </tbody>
+              </table></div>
+            </div>
+            <div class="env-group" id="env-youtube">
+              <h3 data-tr="YouTube çerezleri, dil ve bölge">YouTube cookies, language and region</h3>
+              <div class="guide-table env-table"><table>
+                <thead><tr><th scope="col" data-tr="Değişken">Variable</th><th scope="col" data-tr="Varsayılan">Default</th><th scope="col" data-tr="İşlevi">What it does</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row"><code>YT_<wbr>STRIP_<wbr>COOKIES</code></th><td class="env-default"><code>0</code></td><td><span data-tr="Ana anahtar: ">Master switch: </span><code>1</code><span data-tr=" hem "> disables both </span><code>YTDLP_COOKIES</code><span data-tr=" hem "> and </span><code>YTDLP_COOKIES_FROM_BROWSER</code><span data-tr=" ayarını devre dışı bırakır.">.</span></td></tr>
+                  <tr><th scope="row"><code>YTDLP_<wbr>COOKIES</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="Yaş sınırlı ve üyelere özel videolar için gereken ">Path to a </span><code>cookies.txt</code><span data-tr=" dosyasının yolu."> file, needed for age-restricted and members-only videos.</span></td></tr>
+                  <tr><th scope="row"><code>YTDLP_<wbr>COOKIES_<wbr>FROM_<wbr>BROWSER</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="">When no </span><code>cookies.txt</code><span data-tr=" yoksa çerezleri aynı makinedeki tarayıcıdan alır, örneğin "> exists, imports cookies from a browser on the same machine, such as </span><code>chrome</code><span data-tr=" veya "> or </span><code>firefox</code><span data-tr=".">.</span></td></tr>
+                  <tr><th scope="row"><code>YT_<wbr>UI_<wbr>FORCE_<wbr>COOKIES</code></th><td class="env-default"><code>0</code></td><td><span data-tr="">Keeps YouTube lists consistent in the interface while </span><code>YT_STRIP_COOKIES=1</code><span data-tr=" iken arayüzdeki YouTube listelerini tutarlı tutar. İndirmeleri etkilemez.">. Does not affect downloads.</span></td></tr>
+                  <tr><th scope="row"><code>YTM_<wbr>AUTH_<wbr>USER</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="Tarayıcı çereziyle oturum açmada YouTube Music hesap sırası (0, 1, 2…). Boşsa varsayılan hesap kullanılır.">YouTube Music account index for browser-cookie sign-in (0, 1, 2…). Empty uses the default account.</span></td></tr>
+                  <tr><th scope="row"><code>YT_<wbr>LANG</code></th><td class="env-default"><code>en-US</code></td><td><span data-tr="YouTube isteklerinde kullanılan dil ve bölge kodu.">Locale emulated for YouTube requests.</span></td></tr>
+                  <tr><th scope="row"><code>YT_<wbr>ACCEPT_<wbr>LANGUAGE</code></th><td class="env-default"><code>en;q=0.8</code></td><td><span data-tr="YouTube’a gönderilen ">Exact </span><code>Accept-Language</code><span data-tr=" başlığının değeri."> header sent to YouTube.</span></td></tr>
+                  <tr><th scope="row"><code>YT_<wbr>DEFAULT_<wbr>REGION</code></th><td class="env-default"><code>US</code></td><td><span data-tr="Bölge kısıtlı videolar için ">Country code passed as </span><code>--geo-bypass-country</code><span data-tr=" olarak iletilen ülke kodu."> for region-locked videos.</span></td></tr>
+                  <tr><th scope="row"><code>YT_<wbr>FORCE_<wbr>IPV4</code></th><td class="env-default"><code>1</code></td><td><span data-tr="YouTube isteklerini IPv4 üzerinden yapmaya zorlar.">Forces YouTube requests over IPv4.</span></td></tr>
+                  <tr><th scope="row"><code>YT_<wbr>403_<wbr>WORKAROUNDS</code></th><td class="env-default"><code>0</code></td><td><span data-tr="YouTube’dan gelen HTTP 403 hataları için özel çözümleri açar.">Enables special handling for HTTP 403 errors from YouTube.</span></td></tr>
+                  <tr><th scope="row"><code>YTM_<wbr>SHARED_<wbr>CACHE_<wbr>PERSIST</code></th><td class="env-default"><code>1</code></td><td><span data-tr="Ortak YouTube Music önbelleğini diskte tutar. 0 yalnızca bellekte tutar.">Keeps the shared YouTube Music cache on disk. 0 keeps it in memory only.</span></td></tr>
+                  <tr><th scope="row"><code>YTM_<wbr>HOME_<wbr>RESULT_<wbr>CACHE_<wbr>TTL_<wbr>MS</code></th><td class="env-default"><code>600000</code></td><td><span data-tr="Kişisel YouTube Music ana sayfa sonuçlarının güncel sayılma süresi.">How long personal YouTube Music Home results stay fresh.</span></td></tr>
+                  <tr><th scope="row"><code>YOUTUBE_<wbr>DISCOVER_<wbr>CACHE_<wbr>TTL_<wbr>MS</code></th><td class="env-default"><code>900000</code></td><td><span data-tr="Keşif sonuçlarının güncel sayılma süresi.">How long discovery results stay fresh.</span></td></tr>
+                  <tr><th scope="row"><code>YTM_<wbr>API_<wbr>MIN_<wbr>INTERVAL_<wbr>MS</code></th><td class="env-default"><code>500</code></td><td><span data-tr="YouTube Music API istekleri arasındaki en kısa süre.">Minimum gap between YouTube Music API requests.</span></td></tr>
+                  <tr><th scope="row"><code>YTM_<wbr>PARTIAL_<wbr>RETRY_<wbr>DELAY_<wbr>MS</code></th><td class="env-default"><code>5000</code></td><td><span data-tr="Ana sayfadaki kısmi hatalardan sonra yeniden deneme gecikmesi.">Retry delay after partial Home errors.</span></td></tr>
+                </tbody>
+              </table></div>
+            </div>
+            <div class="env-group" id="env-tagging">
+              <h3 data-tr="Etiketleme">Tagging</h3>
+              <div class="guide-table env-table"><table>
+                <thead><tr><th scope="col" data-tr="Değişken">Variable</th><th scope="col" data-tr="Varsayılan">Default</th><th scope="col" data-tr="İşlevi">What it does</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row"><code>MEDIA_<wbr>COMMENT</code></th><td class="env-default"><code>Gharmonize</code></td><td><span data-tr="Oluşturulan dosyaların yorum etiketine yazılan metin.">Text written to the comment tag of generated files.</span></td></tr>
+                  <tr><th scope="row"><code>MP3_<wbr>WRITE_<wbr>XING</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="MP3 süre ve konum başlıkları varsayılan olarak yazılır. Eski ">MP3 duration and seek headers are written by default. The legacy value </span><code>0</code><span data-tr=" değeri yalnızca sabit bit hızlı dönüştürmelerde kapatır; ayarlamadan bırakmanız önerilir."> disables them only for constant-bitrate conversions; leaving it unset is recommended.</span></td></tr>
+                </tbody>
+              </table></div>
+            </div>
+            <div class="env-group" id="env-security">
+              <h3 data-tr="Erişim ve güvenlik">Access and security</h3>
+              <div class="guide-table env-table"><table>
+                <thead><tr><th scope="col" data-tr="Değişken">Variable</th><th scope="col" data-tr="Varsayılan">Default</th><th scope="col" data-tr="İşlevi">What it does</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>HOST</code></th><td class="env-default"><code>127.0.0.1</code></td><td><span data-tr="Dinleme adresi. ">Listen address. </span><code>127.0.0.1</code><span data-tr=" yalnızca bu bilgisayara, "> allows only this computer, </span><code>0.0.0.0</code><span data-tr=" ev ağına izin verir. Docker "> the home network. Docker sets </span><code>0.0.0.0</code><span data-tr=" kullanır.">.</span></td></tr>
+                  <tr><th scope="row"><code>TRUST_<wbr>PROXY</code></th><td class="env-default"><code>0</code></td><td><span data-tr="Ek ters vekil sunucu ağlarından gelen yönlendirme başlıklarına güvenir. Yerel (loopback) vekiller otomatik olarak güvenilir sayılır.">Trusts forwarded headers from additional reverse-proxy networks. Loopback proxies are trusted automatically.</span></td></tr>
+                  <tr><th scope="row"><code>TRUSTED_<wbr>PROXY_<wbr>CIDRS</code></th><td class="env-default"><code>127.0.0.1/32,::1/128</code></td><td><span data-tr="">Proxy networks trusted when </span><code>TRUST_PROXY</code><span data-tr=" açıkken güvenilen vekil sunucu ağları."> is on.</span></td></tr>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>ACCESS_<wbr>MODE</code></th><td class="env-default"><code>none</code></td><td><code>none</code><span data-tr=" uygulamayı normal açar; "> opens the app normally; </span><code>admin</code><span data-tr=" önce yönetici oturumu veya onaylı geçici erişim ister."> requires an administrator or approved temporary session first.</span></td></tr>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>TEMP_<wbr>ACCESS_<wbr>ENABLED</code></th><td class="env-default"><code>0</code></td><td><span data-tr="">In </span><code>admin</code><span data-tr=" modunda ziyaretçilerin oturum açmış yöneticiden geçici erişim istemesine izin verir."> mode, lets visitors request temporary access from a signed-in administrator.</span></td></tr>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>TEMP_<wbr>ACCESS_<wbr>HOURS</code><br><code>GHARMONIZE_<wbr>TEMP_<wbr>ACCESS_<wbr>DAYS</code><br><code>GHARMONIZE_<wbr>TEMP_<wbr>ACCESS_<wbr>MONTHS</code><br><code>GHARMONIZE_<wbr>TEMP_<wbr>ACCESS_<wbr>YEARS</code></th><td class="env-default"><code>1</code> / <code>0</code> / <code>0</code> / <code>0</code></td><td><span data-tr="Geçici erişimin süresi. Değerler toplanır, en fazla beş yıl olabilir.">Duration of a temporary access grant. The values are added together, capped at five years.</span></td></tr>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>MASTER_<wbr>KEY</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="Kayıtlı sırları şifreleyen anahtar; 32 baytlık hex/base64 değer olarak doğrudan verilir.">Encryption key for stored secrets, given directly as a 32-byte hex/base64 value.</span></td></tr>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>MASTER_<wbr>KEY_<wbr>FILE</code></th><td class="env-default"><code>DATA_DIR/.gharmonize-key</code></td><td><span data-tr="Kayıtlı sırları şifreleyen anahtar dosyasını gösterir. Anahtarı yedekleyin ve uygulama kullanıcısının okuyabildiğinden emin olun.">Points to the encryption key used for stored secrets. Back up the key and keep it readable by the application user.</span></td></tr>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>INITIAL_<wbr>ADMIN_<wbr>PASSWORD_<wbr>FILE</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="Salt okunur kurulumlarda tek kullanımlık ilk yönetici parolası dosyasının yazılacağı konum.">Writable location for the one-time initial admin password file, for read-only deployments.</span></td></tr>
+                  <tr><th scope="row"><code>ADMIN_<wbr>PASSWORD</code><br><code>ADMIN_<wbr>PASSWORD_<wbr>HASH</code></th><td class="env-default"><span class="env-none">—</span></td><td><code>ADMIN_PASSWORD</code><span data-tr=" yalnızca eski kurulumlardan geçiş içindir; Gharmonize scrypt özetini "> is only a legacy migration input; Gharmonize stores the scrypt hash in </span><code>ADMIN_PASSWORD_HASH</code><span data-tr=" içinde saklar. Yeni kurulumlara düz metin parola eklemeyin.">. Do not add a plaintext password to new installs.</span></td></tr>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>ALLOW_<wbr>PRIVATE_<wbr>URLS</code></th><td class="env-default"><code>0</code></td><td><span data-tr="Özel veya yerel ağ adreslerini gösteren uzak URL’lere izin verir. Yalnızca bilinçli yerel ağ kaynakları için açın.">Allows remote URLs that point to private or LAN addresses. Enable only for intentional LAN media sources.</span></td></tr>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>ALLOW_<wbr>UNSAFE_<wbr>YTDLP_<wbr>ARGS</code></th><td class="env-default"><code>0</code></td><td><span data-tr="Ek argüman ayarlarında güvensiz olarak engellenen yt-dlp seçeneklerine izin verir.">Allows yt-dlp options that are blocked as unsafe in the extra-argument settings.</span></td></tr>
+                </tbody>
+              </table></div>
+            </div>
+            <div class="env-group" id="env-player">
+              <h3 data-tr="Gharmonize Player">Gharmonize Player</h3>
+              <div class="guide-table env-table"><table>
+                <thead><tr><th scope="col" data-tr="Değişken">Variable</th><th scope="col" data-tr="Varsayılan">Default</th><th scope="col" data-tr="İşlevi">What it does</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>PLAYER_<wbr>ENABLED</code></th><td class="env-default"><code>0</code></td><td><span data-tr="Player hizmetini açar. 0 iken Player ile ilgili hiçbir şey çalışmaz.">Enables the Player service. While 0, nothing Player-related runs.</span></td></tr>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>PLAYER_<wbr>LISTEN</code></th><td class="env-default"><code>0</code></td><td><span data-tr="Tüm ağ arayüzlerinde yalnızca Player’a hizmet veren ayrı bir dinleyici açar; böylece Gharmonize ">Starts a separate Player-only listener on all interfaces, so phones can connect while Gharmonize listens on </span><code>127.0.0.1</code><span data-tr=" üzerinde çalışırken telefonlar bağlanabilir.">.</span></td></tr>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>PLAYER_<wbr>PORT</code></th><td class="env-default"><code>5175</code></td><td><span data-tr="Ayrı Player dinleyicisinin portu.">Port of the separate Player listener.</span></td></tr>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>PLAYER_<wbr>REMOTE_<wbr>ACCESS</code></th><td class="env-default"><code>off</code></td><td><span data-tr="Yerel ağ dışından erişim: ">Access from outside the local network: </span><code>off</code><span data-tr=", ">, </span><code>tailscale</code><span data-tr=", ">, </span><code>tunnel</code><span data-tr=" veya "> or </span><code>any</code><span data-tr=". Yerel ağ her zaman çalışır.">. The local network always works.</span></td></tr>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>PLAYER_<wbr>TUNNEL_<wbr>MODE</code></th><td class="env-default"><code>quick</code></td><td><span data-tr="Cloudflare Tunnel türü: ">Cloudflare Tunnel type: </span><code>quick</code><span data-tr=" hesap gerektirmez ama adres her yeniden başlatmada değişir; "> needs no account but the address changes on restart; </span><code>token</code><span data-tr=" adlandırılmış tünel kullanır."> uses a named tunnel.</span></td></tr>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>PLAYER_<wbr>TUNNEL_<wbr>TOKEN</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="Adlandırılmış Cloudflare tünelinin anahtarı.">Token of the named Cloudflare tunnel.</span></td></tr>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>PLAYER_<wbr>TUNNEL_<wbr>URL</code></th><td class="env-default"><span class="env-none">—</span></td><td><span data-tr="Adlandırılmış tünelin herkese açık HTTPS adresi.">Public HTTPS address of the named tunnel.</span></td></tr>
+                  <tr><th scope="row"><code>GHARMONIZE_<wbr>PLAYER_<wbr>TUNNEL_<wbr>PORT</code></th><td class="env-default"><code>5185</code></td><td><span data-tr="Cloudflare Tunnel’ın kullandığı yerel Player portu.">Local Player origin port used by Cloudflare Tunnel.</span></td></tr>
+                </tbody>
+              </table></div>
+            </div>
+            <p class="env-empty" hidden data-tr="Aramanızla eşleşen değişken yok.">No variables match your search.</p>
+            <a class="text-link" href="https://github.com/G-grbz/Gharmonize/blob/main/docs/CONFIGURATION.md"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="Örneklerle ayrıntılı yapılandırma belgesi">Detailed configuration reference with examples</span></a>
+          </section>
+          <section class="guide-section" id="player" aria-labelledby="player-title">
+            <h2 id="player-title" data-tr="Player ve Android eşleştirme">Player and Android pairing</h2>
+            <ol>
+              <li><span data-tr="Gharmonize ayarlarında Gharmonize Player’ı etkinleştirin ve ">In Gharmonize settings, enable Gharmonize Player and open </span><code>/player/</code><span data-tr=" yolunu açın.">.</span></li>
+              <li><span data-tr="Yönetici bilgilerinizi kullanarak ilk Player hesabını oluşturun. Yönetim → Kitaplıklar bölümünde klasörleri ekleyip taratın.">Create the first Player account using your administrator credentials. Add folders in Administration → Libraries and scan them.</span></li>
+              <li><span data-tr="GitHub Releases üzerinden ">Install the </span><code>Gharmonize-Player-Client</code><span data-tr=" APK’sını kurun. Web Player’da cihaz eşleştirmeyi açın ve QR kodu Android uygulamasından taratın."> APK from GitHub Releases. Open device pairing in the web Player and scan the QR code from the Android app.</span></li>
+              <li><span data-tr="Masaüstü kurulumunda yerel ağdan dinlemek için varsayılan olarak 5175 portundaki ayrı Player dinleyicisini etkinleştirin. Docker istemcileri normalde yayımlanan 5174 portunu kullanabilir.">For desktop LAN listening, enable the dedicated Player listener, normally on port 5175. Docker clients can use the existing published port, normally 5174.</span></li>
+            </ol>
+            <a class="text-link" href="https://github.com/G-grbz/Gharmonize/blob/main/docs/PLAYER.md"><span class="icon icon-book" aria-hidden="true"></span> <span data-tr="Ayrıntılı Player ve uzaktan erişim rehberi">Full Player and remote access guide</span></a>
+          </section>
+        </article>
+        <p id="copy-status" class="visually-hidden" role="status"></p>
+      </main>
+    </div>
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <a class="brand" href="../../"><img src="../../assets/img/logo.png" alt="G-grbz" width="1024" height="548"></a>
+        <a class="text-link" href="https://github.com/G-grbz"><span class="icon icon-repo" aria-hidden="true"></span> <span data-tr="GitHub profili">GitHub profile</span></a>
+      </div>
+    </footer>
+  </body>
+</html>
